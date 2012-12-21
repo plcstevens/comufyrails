@@ -24,25 +24,23 @@ module Comufyrails::Connection
     }
 
     EM.synchrony do
-      results = {}
 
       resp = EventMachine::HttpRequest.new(Comufyrails.config.base_api_url).post(
           :body       => { request: data.to_json },
           :initheader => { 'Content-Type' => 'application/json' })
-      results.push JSON.parse(resp.response)
+      results = JSON.parse(resp.response)
 
-      case message['cd']
+      case results['cd']
         when 388 then
-          p "388 - Success! - data = #{data} - message = #{message}."
-          return true
+          p "388 - Success! - data = #{data} - message = #{results}."
         when 475 then
-          p "475 - Invalid parameter provided. - data = #{data} - message = #{message}."
+          p "475 - Invalid parameter provided. - data = #{data} - message = #{results}."
         when 617 then
-          p "617 - Some of the tags passed are not registered. - data = #{data} - message = #{message}."
+          p "617 - Some of the tags passed are not registered. - data = #{data} - message = #{results}."
         when 632 then
-          p "632 - _ERROR_FACEBOOK_PAGE_NOT_FOUND - data = #{data} - message = #{message}."
+          p "632 - _ERROR_FACEBOOK_PAGE_NOT_FOUND - data = #{data} - message = #{results}."
         else
-          p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+          p "UNKNOWN RESPONSE - data = #{data} - message = #{results}."
       end
       EventMachine.stop
     end
