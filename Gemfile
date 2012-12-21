@@ -5,3 +5,4 @@ gemspec
 
 gem 'rails'
 gem 'em-synchrony'
+gem 'em-http-request'

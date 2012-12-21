@@ -19,6 +19,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency('activesupport')
   gem.add_dependency('em-synchrony')
+  gem.add_dependency('em-http-request')
 
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec'

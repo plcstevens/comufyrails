@@ -11,10 +11,11 @@ module Comufyrails::Connection
   # with post and post requests to send and receive data. It'll use the information generated from the Railtie
   # to know what/who is sending and to where.
 
-  def store_user(uid, tags)
+  # working example
+  def self.store_user(uid, tags)
     data = {
-        token:           Comufyrails.config.access_token,
         cd:              '88',
+        token:           Comufyrails.config.access_token,
         applicationName: Comufyrails.config.app_name,
         accounts:        [{
                               account: { fbId: uid },
@@ -25,13 +26,19 @@ module Comufyrails::Connection
     EM.synchrony do
       results = []
 
-      EM::Synchrony::FiberIterator.new(Comufyrails.config.base_api_url, 1).each do |url|
-        resp = EventMachine::HttpRequest.new(url).post(:body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
-        results.push resp.response
-      end
+      resp = EventMachine::HttpRequest.new(Comufyrails.config.base_api_url).post(
+          :body       => { request: data.to_json },
+          :initheader => { 'Content-Type' => 'application/json' })
+      results.push resp.response
 
       p results # all completed requests
       EventMachine.stop
+    end
+
+    p "Has request happened yet?"
+    p "I wonder whats going on"
+    [1,2,3,4,5,6,7,8,9,10].each do |number|
+      p number
     end
   end
 
