@@ -9,17 +9,20 @@ class Comufyrails::Railtie < Rails::Railtie
     # load "path/to/my_railtie.tasks"
   end
 
-  initializer "comufyrails.initialize" do |app|
-    #unless defined?(COMUFY)
-    #  silence_warnings { Object.const_set "COMUFY", app.config.comufy }
-    #end
+  initializer "comufyrails.configure_rails_initialization" do |app|
     Comufyrails.configure do |config|
-      config.app_name     = app.config.comufy[:app_name]      || self.app_name
-      config.username     = app.config.comufy[:username]      || self.username
-      config.password     = app.config.comufy[:password]      || self.password
-      config.access_token = app.config.comufy[:access_token]  || self.access_token
-      config.expiry_date  = app.config.comufy[:expiry_date]   || self.expiry_date
-      config.base_api_url = app.config.comufy[:base_api_url]  || self.base_api_url
+      config.app_name     = app.config.comufy.has_key? :app_name ?
+                                                           app.config.comufy[:app_name] : self.app_name
+      config.username     = app.config.comufy.has_key? :username ?
+                                                           app.config.comufy[:username] : self.username
+      config.password     = app.config.comufy.has_key? :password ?
+                                                           app.config.comufy[:password] : self.password
+      config.access_token = app.config.comufy.has_key? :access_token ?
+                                                           app.config.comufy[:access_token] : self.access_token
+      config.expiry_date  = app.config.comufy.has_key? :expiry_date ?
+                                                           app.config.comufy[:expiry_date] : self.expiry_date
+      config.base_api_url = app.config.comufy.has_key? :base_api_url ?
+                                                           app.config.comufy[:base_api_url] : self.base_api_url
     end
   end
 
