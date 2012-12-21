@@ -13,4 +13,7 @@ module Comufyrails
     @@config ||= Config.new
   end
 
+  def self.configure
+    yield self.config
+  end
 end
