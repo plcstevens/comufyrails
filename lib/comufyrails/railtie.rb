@@ -3,26 +3,20 @@ require 'rails'
 class Comufyrails::Railtie < Rails::Railtie
 
   # this allows users to manage settings just like they manage rails settings
-  config.comufy = ActiveSupport::OrderedOptions.new
+  config.comufy_rails = ActiveSupport::OrderedOptions.new # enable namespaced configuration in Rails environment
 
   rake_tasks do
     # load "path/to/my_railtie.tasks"
   end
 
-  initializer "comufyrails.configure_rails_initialization" do |app|
+  initializer "comufyrails.configure" do |app|
     Comufyrails.configure do |config|
-      config.app_name     = app.config.comufy.has_key? :app_name ?
-                                                           app.config.comufy[:app_name] : self.app_name
-      config.username     = app.config.comufy.has_key? :username ?
-                                                           app.config.comufy[:username] : self.username
-      config.password     = app.config.comufy.has_key? :password ?
-                                                           app.config.comufy[:password] : self.password
-      config.access_token = app.config.comufy.has_key? :access_token ?
-                                                           app.config.comufy[:access_token] : self.access_token
-      config.expiry_time  = app.config.comufy.has_key? :expiry_time ?
-                                                           app.config.comufy[:expiry_time] : self.expiry_date
-      config.base_api_url = app.config.comufy.has_key? :base_api_url ?
-                                                           app.config.comufy[:base_api_url] : self.base_api_url
+      config.app_name     = app.config.comufy_rails[:app_name]      || Comufyrails::Railtie.app_name
+      config.username     = app.config.comufy_rails[:username]      || Comufyrails::Railtie.username
+      config.password     = app.config.comufy_rails[:password]      || Comufyrails::Railtie.password
+      config.access_token = app.config.comufy_rails[:access_token]  || Comufyrails::Railtie.access_token
+      config.expiry_time  = app.config.comufy_rails[:expiry_time]   || Comufyrails::Railtie.expiry_time
+      config.base_api_url = app.config.comufy_rails[:base_api_url]  || Comufyrails::Railtie.base_api_url
     end
   end
 
