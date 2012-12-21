@@ -9,7 +9,7 @@ class Comufyrails::Railtie < Rails::Railtie
     # load "path/to/my_railtie.tasks"
   end
 
-  initializer "comufyrails.configure_settings" do |app|
+  initializer "comufyrails.initialize" do |app|
     #unless defined?(COMUFY)
     #  silence_warnings { Object.const_set "COMUFY", app.config.comufy }
     #end
