@@ -50,7 +50,7 @@ class Comufyrails::Railtie < Rails::Railtie
       ENV.fetch('COMUFY_TOKEN', nil)
     end
 
-    def self.expiry_token
+    def self.expiry_date
       ENV.fetch('COMUFY_EXPIRY_TIME', nil)
     end
 
