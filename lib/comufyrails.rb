@@ -1,6 +1,7 @@
 require 'rails'
 
 require "comufyrails/version"
+require "comufyrails/connection"
 require 'comufyrails/railtie' if defined?(Rails)
 
 module Comufyrails
