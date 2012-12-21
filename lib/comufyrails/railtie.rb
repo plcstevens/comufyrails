@@ -32,27 +32,23 @@ class Comufyrails::Railtie < Rails::Railtie
   private
 
     def self.app_name
-      ::Rails.application.class.to_s.split("::").first
+      ENV.fetch('COMUFY_APP_NAME', ::Rails.application.class.to_s.split("::").first)
     end
 
     def self.username
-      # TODO: look in the environment for comufy settings before returning nil
-
+      ENV.fetch('COMUFY_USER', nil)
     end
 
     def self.password
-      # TODO: look in the environment for comufy settings before returning nil
-
+      ENV.fetch('COMUFY_PASSWORD', nil)
     end
 
     def self.access_token
-      # TODO: look in the environment for comufy settings before returning nil
-
+      ENV.fetch('COMUFY_TOKEN', nil)
     end
 
     def self.expiry_token
-      # TODO: look in the environment for comufy settings before returning nil
-
+      ENV.fetch('COMUFY_EXPIRY_TIME', nil)
     end
 
     def self.base_api_url
