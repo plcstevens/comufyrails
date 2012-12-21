@@ -19,8 +19,8 @@ class Comufyrails::Railtie < Rails::Railtie
                                                            app.config.comufy[:password] : self.password
       config.access_token = app.config.comufy.has_key? :access_token ?
                                                            app.config.comufy[:access_token] : self.access_token
-      config.expiry_date  = app.config.comufy.has_key? :expiry_date ?
-                                                           app.config.comufy[:expiry_date] : self.expiry_date
+      config.expiry_time  = app.config.comufy.has_key? :expiry_time ?
+                                                           app.config.comufy[:expiry_time] : self.expiry_date
       config.base_api_url = app.config.comufy.has_key? :base_api_url ?
                                                            app.config.comufy[:base_api_url] : self.base_api_url
     end
@@ -50,7 +50,7 @@ class Comufyrails::Railtie < Rails::Railtie
       ENV.fetch('COMUFY_TOKEN', nil)
     end
 
-    def self.expiry_date
+    def self.expiry_time
       ENV.fetch('COMUFY_EXPIRY_TIME', nil)
     end
 
