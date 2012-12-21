@@ -14,12 +14,12 @@ class Comufyrails::Railtie < Rails::Railtie
     #  silence_warnings { Object.const_set "COMUFY", app.config.comufy }
     #end
     Comufyrails.configure do |config|
-      config.app_name     = app.config.comufy.fetch(:app_name,      self.app_name)
-      config.username     = app.config.comufy.fetch(:username,      self.username)
-      config.password     = app.config.comufy.fetch(:password,      self.password)
-      config.access_token = app.config.comufy.fetch(:access_token,  self.access_token)
-      config.expiry_date  = app.config.comufy.fetch(:expiry_date,   self.expiry_date)
-      config.base_api_url = app.config.comufy.fetch(:base_api_url,  self.base_api_url)
+      config.app_name     = app.config.comufy[:app_name]      || self.app_name
+      config.username     = app.config.comufy[:username]      || self.username
+      config.password     = app.config.comufy[:password]      || self.password
+      config.access_token = app.config.comufy[:access_token]  || self.access_token
+      config.expiry_date  = app.config.comufy[:expiry_date]   || self.expiry_date
+      config.base_api_url = app.config.comufy[:base_api_url]  || self.base_api_url
     end
   end
 
