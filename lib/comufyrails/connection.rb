@@ -24,8 +24,9 @@ module Comufyrails::Connection
     }
 
     EM.synchrony do
+      url = Comufyrails.config.base_api_url
 
-      resp = EventMachine::HttpRequest.new(Comufyrails.config.base_api_url).post(
+      resp = EventMachine::HttpRequest.new(url).post(
           :body       => { request: data.to_json },
           :initheader => { 'Content-Type' => 'application/json' })
       results = JSON.parse(resp.response)
@@ -42,7 +43,6 @@ module Comufyrails::Connection
         else
           p "UNKNOWN RESPONSE - data = #{data} - message = #{results}."
       end
-      EventMachine.stop
     end
   end
 
