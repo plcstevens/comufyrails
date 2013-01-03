@@ -1,6 +1,5 @@
 require "em-synchrony"
 require "em-synchrony/em-http"
-require "em-synchrony/fiber_iterator"
 
 module Comufyrails::Connection
 

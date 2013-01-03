@@ -5,10 +5,6 @@ class Comufyrails::Railtie < Rails::Railtie
   # this allows users to manage settings just like they manage rails settings
   config.comufy_rails = ActiveSupport::OrderedOptions.new # enable namespaced configuration in Rails environment
 
-  rake_tasks do
-    # load "path/to/my_railtie.tasks"
-  end
-
   initializer "comufyrails.configure" do |app|
     Comufyrails.configure do |config|
       config.app_name     = app.config.comufy_rails[:app_name]      || Comufyrails::Railtie.app_name
@@ -18,6 +14,10 @@ class Comufyrails::Railtie < Rails::Railtie
       config.expiry_time  = app.config.comufy_rails[:expiry_time]   || Comufyrails::Railtie.expiry_time
       config.base_api_url = app.config.comufy_rails[:base_api_url]  || Comufyrails::Railtie.base_api_url
     end
+  end
+
+  rake_tasks do
+    load "tasks/comufyrails.rake"
   end
 
   # Add a to_prepare block which is executed once in production
