@@ -3,46 +3,148 @@ require "em-synchrony/em-http"
 
 module Comufyrails::Connection
 
-  # aim of this module is to will be to allow sync/async connections to be sent to our heroku servers
-  # to be processed and then returned (or the error message returned)
 
-  # with this in mind, we will probably be using https://github.com/igrigorik/em-synchrony
-  # with post and post requests to send and receive data. It'll use the information generated from the Railtie
-  # to know what/who is sending and to where.
-
-  # working example
+  # This API call allows you to register a Facebook user of your application into Comufy’s social CRM.
+  # If this user was already registered with Comufy, their information will be updated.
+  #
+  # * (String) +uid+ - The Facebook ID of the user you'll be adding.
+  # * (Hash) +tags+ - The tags you'll setting for this user.
+  #   * (String) +tag_name+ - Must correspond to one of the tag names of the application.
+  #   * (String) +value+ - Must be the correct value type for that tag.
+  #
+  # = Example
+  #
+  #   Comufyrails::Connection.store_user USER_FACEBOOK_ID, { dob: '1978-10-01 19:50:48' }
   def self.store_user(uid, tags)
+    raise ArgumentError, "uid cannot be nil" unless uid
+    self.store_users([uid], [tags])
+  end
+
+  # This API call allows you to register multiple Facebook users of your application into Comufy’s social CRM.
+  # If these users were already registered into Comufy, their information will be updated.
+  #
+  # * (Array) +uids+ - The users you wish to add/update.
+  # * (Array) +tags+ - A list of hashes for each of the users.
+  #   * (Hash) +tag+
+  #     * (String) +tag_name+ - Must correspond to one of the tag names of the application.
+  #     * (String) +value+    - Must be the correct value type for that tag.
+  #
+  # = Example
+  #
+  #   Comufyrails::Connection.store_users(
+  #     [ USER_ID, USER_ID_2 ],
+  #     [ { 'dob' => '1978-10-01 19:50:48' }, { 'dob' => '1978-10-01 19:50:48'}]
+  #   )
+  def self.store_users(uids, tags)
+    raise ArgumentError, "uids must be an Array. uids - #{uids.inspect}" unless uids and uids.is_a? Array
+    raise ArgumentError, "tags must be an Array. tags - #{tags.inspect}" unless tags and tags.is_a? Array
+
+    zipped = uids.zip(tags)
     data = {
         cd:              '88',
         token:           Comufyrails.config.access_token,
         applicationName: Comufyrails.config.app_name,
-        accounts:        [{
-                              account: { fbId: uid },
-                              tags:    tags
-                          }]
+        accounts:        zipped.map { |uid, tagged | Hash[:account, { fbId: uid.to_s }, :tags, tagged] }
     }
-
     EM.synchrony do
-      url = Comufyrails.config.base_api_url
-
-      resp = EventMachine::HttpRequest.new(url).post(
-          :body       => { request: data.to_json },
-          :initheader => { 'Content-Type' => 'application/json' })
-      results = JSON.parse(resp.response)
-
-      case results['cd']
-        when 388 then
-          p "388 - Success! - data = #{data} - message = #{results}."
-        when 475 then
-          p "475 - Invalid parameter provided. - data = #{data} - message = #{results}."
-        when 617 then
-          p "617 - Some of the tags passed are not registered. - data = #{data} - message = #{results}."
-        when 632 then
-          p "632 - _ERROR_FACEBOOK_PAGE_NOT_FOUND - data = #{data} - message = #{results}."
-        else
-          p "UNKNOWN RESPONSE - data = #{data} - message = #{results}."
+      http = self.post(data)
+      if http.response_header.status == 200
+        message = JSON.parse(http.response)
+        self.store_user_results(message, data)
       end
     end
+  end
+
+  # TODO: Document function
+  # TODO: write in ArgumentExceptions for parameters
+  def self.send_facebook_message(description, content, uids, opts = {})
+    opts = symbolize_keys(opts)
+
+    facebook_ids  = "FACEBOOK_ID=\"#{uids.join('\" OR FACEBOOK_ID=\"')}\""
+    filter        = opts[:filter] || ""
+    delivery_time = opts[:delivery_time]
+    shorten_urls  = opts.has_key?(:shorten_urls) ? opts[:shorten_urls] : true
+    options       = opts[:message_options]
+
+    data = {
+        cd:              83,
+        token:           Comufyrails.config.access_token,
+        applicationName: Comufyrails.config.app_name,
+        description:     description,
+        content:         content,
+        filter:          "#{facebook_ids} #{filter}"
+    }
+    data[:deliveryTime]           = delivery_time if delivery_time
+    data[:trackingMode]           = "UNTRACKED" unless shorten_urls
+    data[:facebookTargetingMode]  = "NOTIFICATION"
+
+    if options
+      data[:fbMessagePrivacyMode] = options[:private] ? "PRIVATE" : "PUBLIC" if options.has_key?(:private)
+      data[:fbMessageCaption]     = options[:caption]                        if options.has_key?(:caption)
+      data[:fbMessageLink]        = options[:link]                           if options.has_key?(:link)
+      data[:fbMessageName]        = options[:name]                           if options.has_key?(:name)
+      data[:fbMessageDescription] = options[:description]                    if options.has_key?(:description)
+      data[:fbMessagePictureUrl]  = options[:picture]                        if options.has_key?(:picture)
+    end
+
+    EM.synchrony do
+      http = self.post(data)
+      if http.response_header.status == 200
+        message = JSON.parse(http.response)
+        self.send_facebook_message_results(message, data)
+      end
+    end
+  end
+
+  private
+
+  def self.store_user_results(message, data)
+    case message["cd"]
+      when 388 then
+        p "388 - Success! - data = #{data} - message = #{message}."
+      when 475 then
+        p "475 - Invalid parameter provided. - data = #{data} - message = #{message}."
+      when 617 then
+        p "617 - Some of the tags passed are not registered. - data = #{data} - message = #{message}."
+      when 632 then
+        p "632 - _ERROR_FACEBOOK_PAGE_NOT_FOUND - data = #{data} - message = #{message}."
+      else
+        p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+    end
+  end
+
+  def self.send_facebook_message_results(message, data)
+    case message["cd"]
+      when 383 then
+        p "383 - Success! - data = #{data} - message = #{message}."
+      when 416 then
+        p "416 - _ERROR_MSG_SEND_FAILED - data = #{data} - message = #{message}."
+      when 475 then
+        p "475 - Invalid parameters provided - data = #{data} - message = #{message}."
+      when 551 then
+        p "551 _ERROR_TAG_VALUE_NOT_FOUND - data = #{data} - message = #{message}."
+      when 603 then
+        p "603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}."
+      when 607 then
+        p "607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}."
+      when 617 then
+        p "617 - _ERROR_DOMAIN_APPLICATION_TAG_NOT_FOUND - data = #{data} - message = #{message}."
+      when 648 then
+        p "648 - _ERROR_FACEBOOK_APPLICATION_USER_NOT_FOUND - data = #{data} - message = #{message}."
+      when 673 then
+        p "673 - Invalid time exception - data = #{data} - message = #{message}."
+      when 679 then
+        p "679 - _ERROR_MALFORMED_TARGETING_EXPRESSION - data = #{data} - message = #{message}."
+      else
+        p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+    end
+  end
+
+  def self.post(data)
+    url = Comufyrails.config.base_api_url
+    body = { request: data.to_json }
+    initheader = { 'Content-Type' => 'application/json' }
+    EventMachine::HttpRequest.new(url).post(:body => body, :initheader => initheader)
   end
 
 end
