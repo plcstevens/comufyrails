@@ -91,6 +91,8 @@ namespace :comufy do
     end
   end
 
+  private
+
   def call_api(url, data)
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
