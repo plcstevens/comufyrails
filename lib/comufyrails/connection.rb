@@ -55,7 +55,31 @@ module Comufyrails::Connection
     end
   end
 
-  # TODO: Document function
+  # Sends a message with the description and content to the facebook id or id's specified, allowing multiple
+  # options to be set concerning the privacy, and content of the message.
+  #
+  # * (String) +description+ - Description of the message. Useful to aggregate data in the Comufy dashboard. e.g. "Welcome".
+  # * (String) +content+ - The text message content.
+  # * (Array) +uids+ - The Facebook IDs of the users to send the message to.
+  # * (Hash) +opts+ - Optional settings you can pass.
+  #   * (Integer) +delivery_time+ - The scheduled time of delivery defaults to now. (Unix millisecond timestamps)
+  #   * (Boolean) +shorten_urls+ - UNTRACKED if false, otherwise defaults to Comufy TRACKED
+  #   * (String) +filter+ - filtering condition in CFL.
+  #   * (Hash) +message_options+ - options to set for the message especially.
+  #     * (String) +name+ - facebook message name.
+  #     * (String) +link+ - Facebook message link.
+  #     * (String) +caption+ - facebook message caption.
+  #     * (String) +description+ - description of the message.
+  #     * (String) +picture+ - URL of the image that should appear on the image section of the message.
+  #     * (Boolean) +privacy+ -  whether the message should be sent private or not.
+  #
+  # = Example
+  #    Comufyrails::Connection.send_facebook_message(
+  #      DESCRIPTION, CONTENT_GOES_HERE, UIDS,
+  #      message_options: {
+  #        private: true, link: 'www.example.com', name: 'test', description: 'description'
+  #      }
+  #    )
   # TODO: write in ArgumentExceptions for parameters
   def self.send_facebook_message(description, content, uids, opts = {})
     opts = symbolize_keys(opts)
