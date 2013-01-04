@@ -80,8 +80,11 @@ module Comufyrails::Connection
   #        private: true, link: 'www.example.com', name: 'test', description: 'description'
   #      }
   #    )
-  # TODO: write in ArgumentExceptions for parameters
   def self.send_facebook_message(description, content, uids, opts = {})
+    raise ArgumentError, "You must include a description for the message." unless description
+    raise ArgumentError, "You must include the content of the message." unless content
+    raise ArgumentError, "Your must have a list of uids to send messages to." unless uids and uids.is_a? Array
+
     opts = symbolize_keys(opts)
 
     facebook_ids  = "FACEBOOK_ID=\"#{uids.join('\" OR FACEBOOK_ID=\"')}\""
