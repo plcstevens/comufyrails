@@ -35,8 +35,8 @@ module Comufyrails::Connection
   #     [ { 'dob' => '1978-10-01 19:50:48' }, { 'dob' => '1978-10-01 19:50:48'}]
   #   )
   def self.store_users(uids, tags)
-    raise ArgumentError, "uids must be an Array. uids - #{uids.inspect}" unless uids and uids.is_a? Array
-    raise ArgumentError, "tags must be an Array. tags - #{tags.inspect}" unless tags and tags.is_a? Array
+    raise ArgumentError, "uids must be an Array. uids is #{uids.inspect}" unless uids and uids.is_a? Array
+    raise ArgumentError, "tags must be an Array. uids is #{tags.inspect}" unless tags and tags.is_a? Array
 
     zipped = uids.zip(tags)
     data = {
@@ -96,7 +96,7 @@ module Comufyrails::Connection
   def self.send_facebook_message(description, content, uids, opts = {})
     raise ArgumentError, "You must include a description for the message." unless description
     raise ArgumentError, "You must include the content of the message." unless content
-    raise ArgumentError, "Your must have a list of uids to send messages to." unless uids and uids.is_a? Array
+    raise ArgumentError, "Your must have a list of uids to send messages to. uids is #{uids.inspect}" unless uids and uids.is_a? Array
 
     opts = symbolize_keys(opts)
 
