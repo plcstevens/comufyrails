@@ -47,10 +47,22 @@ module Comufyrails::Connection
         accounts:        zipped.map { |uid, tagged | Hash[:account, { fbId: uid.to_s }, :tags, tagged] }
     }
     EM.synchrony do
-      http = self.post(data)
+      http = EventMachine::HttpRequest.new(Comufyrails.config.base_api_url).post(
+          :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
       if http.response_header.status == 200
         message = JSON.parse(http.response)
-        self.store_user_results(message, data)
+        case message["cd"]
+          when 388 then
+            p "388 - Success! - data = #{data} - message = #{message}."
+          when 475 then
+            p "475 - Invalid parameter provided. - data = #{data} - message = #{message}."
+          when 617 then
+            p "617 - Some of the tags passed are not registered. - data = #{data} - message = #{message}."
+          when 632 then
+            p "632 - _ERROR_FACEBOOK_PAGE_NOT_FOUND - data = #{data} - message = #{message}."
+          else
+            p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+        end
       end
     end
   end
@@ -58,7 +70,7 @@ module Comufyrails::Connection
   # Sends a message with the description and content to the facebook id or id's specified, allowing multiple
   # options to be set concerning the privacy, and content of the message.
   #
-  # * (String) +description+ - Description of the message. Useful to aggregate data in the Comufy dashboard. e.g. "Welcome".
+  # * (String) +description+ - Description of the message. Useful to aggregate data in the Comufy dashboard.
   # * (String) +content+ - The text message content.
   # * (Array) +uids+ - The Facebook IDs of the users to send the message to.
   # * (Hash) +opts+ - Optional settings you can pass.
@@ -115,63 +127,36 @@ module Comufyrails::Connection
     end
 
     EM.synchrony do
-      http = self.post(data)
+      http = EventMachine::HttpRequest.new(Comufyrails.config.base_api_url).post(
+          :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
       if http.response_header.status == 200
         message = JSON.parse(http.response)
-        self.send_facebook_message_results(message, data)
+        case message["cd"]
+          when 383 then
+            p "383 - Success! - data = #{data} - message = #{message}."
+          when 416 then
+            p "416 - _ERROR_MSG_SEND_FAILED - data = #{data} - message = #{message}."
+          when 475 then
+            p "475 - Invalid parameters provided - data = #{data} - message = #{message}."
+          when 551 then
+            p "551 _ERROR_TAG_VALUE_NOT_FOUND - data = #{data} - message = #{message}."
+          when 603 then
+            p "603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}."
+          when 607 then
+            p "607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}."
+          when 617 then
+            p "617 - _ERROR_DOMAIN_APPLICATION_TAG_NOT_FOUND - data = #{data} - message = #{message}."
+          when 648 then
+            p "648 - _ERROR_FACEBOOK_APPLICATION_USER_NOT_FOUND - data = #{data} - message = #{message}."
+          when 673 then
+            p "673 - Invalid time exception - data = #{data} - message = #{message}."
+          when 679 then
+            p "679 - _ERROR_MALFORMED_TARGETING_EXPRESSION - data = #{data} - message = #{message}."
+          else
+            p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+        end
       end
     end
-  end
-
-  private
-
-  def self.store_user_results(message, data)
-    case message["cd"]
-      when 388 then
-        p "388 - Success! - data = #{data} - message = #{message}."
-      when 475 then
-        p "475 - Invalid parameter provided. - data = #{data} - message = #{message}."
-      when 617 then
-        p "617 - Some of the tags passed are not registered. - data = #{data} - message = #{message}."
-      when 632 then
-        p "632 - _ERROR_FACEBOOK_PAGE_NOT_FOUND - data = #{data} - message = #{message}."
-      else
-        p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
-    end
-  end
-
-  def self.send_facebook_message_results(message, data)
-    case message["cd"]
-      when 383 then
-        p "383 - Success! - data = #{data} - message = #{message}."
-      when 416 then
-        p "416 - _ERROR_MSG_SEND_FAILED - data = #{data} - message = #{message}."
-      when 475 then
-        p "475 - Invalid parameters provided - data = #{data} - message = #{message}."
-      when 551 then
-        p "551 _ERROR_TAG_VALUE_NOT_FOUND - data = #{data} - message = #{message}."
-      when 603 then
-        p "603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}."
-      when 607 then
-        p "607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}."
-      when 617 then
-        p "617 - _ERROR_DOMAIN_APPLICATION_TAG_NOT_FOUND - data = #{data} - message = #{message}."
-      when 648 then
-        p "648 - _ERROR_FACEBOOK_APPLICATION_USER_NOT_FOUND - data = #{data} - message = #{message}."
-      when 673 then
-        p "673 - Invalid time exception - data = #{data} - message = #{message}."
-      when 679 then
-        p "679 - _ERROR_MALFORMED_TARGETING_EXPRESSION - data = #{data} - message = #{message}."
-      else
-        p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
-    end
-  end
-
-  def self.post(data)
-    url = Comufyrails.config.base_api_url
-    body = { request: data.to_json }
-    initheader = { 'Content-Type' => 'application/json' }
-    EventMachine::HttpRequest.new(url).post(:body => body, :initheader => initheader)
   end
 
 end
