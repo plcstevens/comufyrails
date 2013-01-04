@@ -63,6 +63,8 @@ module Comufyrails::Connection
           else
             p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
         end
+      else
+        p "Server responded with #{http.response_header}."
       end
     end
   end
@@ -155,6 +157,8 @@ module Comufyrails::Connection
           else
             p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
         end
+      else
+        p "Server responded with #{http.response_header}."
       end
     end
   end
