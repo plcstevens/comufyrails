@@ -45,7 +45,7 @@ class Comufyrails::Railtie < Rails::Railtie
     end
 
     def self.expiry_time
-      ENV.fetch('COMUFY_EXPIRY_TIME', nil)
+      ENV.fetch('COMUFY_EXPIRY_TIME', Time.now.to_i + 100000)
     end
 
     def self.base_api_url
