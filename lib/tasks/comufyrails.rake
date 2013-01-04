@@ -6,11 +6,10 @@ namespace :comufy do
 
   desc "Register a tag with your application."
   task :register_tag, [:name, :type] => :environment do |t, args|
-    if args.name.blank?
-      p "Must specify a name for the tag."
-    elsif args.type.blank?
-      p "Must specify a type for the tag."
-    elsif Comufyrails.config.app_name.blank?
+    raise ArgumentError, "Must specify a name for the tag." unless args.name
+    raise ArgumentError, "Must specify a type for the tag." unless args.type
+
+    if Comufyrails.config.app_name.blank?
       p "Cannot find the application name, please set config.comufy_rails.app_name in your environment initializer."
     elsif Comufyrails.config.base_api_url.blank?
       p "Cannot find the base api url, please set config.comufy_rails.base_api_url in your environment initializer."
@@ -54,9 +53,9 @@ namespace :comufy do
 
   desc "Unregister an existing tag from your application."
   task :unregister_tag, [:name] => :environment do |t, args|
-    if args.name.blank?
-      p "Must specify the name of the tag."
-    elsif Comufyrails.config.app_name.blank?
+    raise ArgumentError, "Must specify a name for the tag." unless args.name
+
+    if Comufyrails.config.app_name.blank?
       p "Cannot find the application name, please set config.comufy_rails.app_name in your environment initializer."
     elsif Comufyrails.config.base_api_url.blank?
       p "Cannot find the base api url, please set config.comufy_rails.base_api_url in your environment initializer."
@@ -93,6 +92,7 @@ namespace :comufy do
 
   private
 
+  # posts the form to the given url as json and blocks till the response.
   def call_api(url, data)
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
