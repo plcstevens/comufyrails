@@ -63,10 +63,13 @@ If you have your own user database, and wish to keep the Comufy database in sync
 behaviour for your model and asynchronously send the data to Comufy.
 
 ```ruby
+class UserObserver < ActiveRecord::Observer
+
   def after_save(user)
-    data = { dob: Comufyrails.comufy_time(user.dob), fact: user.fact }
+    data = { dob: user.dob.to_comufy_time, fact: user.fact }
     Comufyrails::Connection.store_user(user.facebook_id, data)
   end
+end
 ```
 
 This is non-blocking and the results are printed to the log.
