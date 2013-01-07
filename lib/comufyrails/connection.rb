@@ -96,8 +96,8 @@ module Comufyrails::Connection
     #      }
     #    )
     def send_facebook_message(description, content, uids, opts = {})
-      raise ArgumentError, "You must include a description for the message." unless description
-      raise ArgumentError, "You must include the content of the message." unless content
+      raise ArgumentError, "You must include a description for the message." unless description and description.is_a? String
+      raise ArgumentError, "You must include the content of the message." unless content and content.is_a? String
       raise ArgumentError, "Your must have a list of uids to send messages to. uids is #{uids.inspect}" unless uids and uids.is_a? Array
 
       opts = symbolize_keys(opts)
@@ -163,6 +163,36 @@ module Comufyrails::Connection
         end
       end
     end
+
+    def get_users filter = ""
+
+      data = {
+          cd:               82,
+          token:            Comufyrails.config.access_token,
+          applicationName:  Comufyrails.config.app_name,
+          since:            1314835200000,
+          fetchMode:        "STATS_ONLY",
+          filter:           filter
+      }
+
+      EM.synchrony do
+        http = EventMachine::HttpRequest.new(Comufyrails.config.base_api_url).post(
+            :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
+        if http.response_header.status == 200
+          message = JSON.parse(http.response)
+          case message["cd"]
+            when 382 then
+              p "382 - Success! - data = #{data} - message = #{message}."
+            when 692 then
+              p "692 - Invalid filter/filter not found - data = #{data} - message = #{message}."
+            else
+              p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+          end
+        end
+        EventMachine.stop
+      end
+    end
+
   end
 
 end
