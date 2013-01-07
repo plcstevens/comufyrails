@@ -52,19 +52,7 @@ module Comufyrails
     end
 
     def to_comufy_time param
-      case param
-        when Time
-          # nothing need be altered
-        when Date
-          # nothing need be altered
-        when DateTime
-          # nothing need be altered
-        when String
-          # attempt to parse the String
-          param = DateTime.parse(param)
-        else
-          # most likely this will cause an exception, but that is up to the user to handle
-      end
+      param = DateTime.parse(param) if param.is_a? String
       param.strftime("%Y-%m-%d %H:%M:%S")
     end
   end
