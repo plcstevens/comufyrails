@@ -33,7 +33,11 @@ module Comufyrails
   end
 
   class << self
-    # if the class variable config isn't defined, define it as Config object
+    def logger
+      @@logger
+    end
+
+    # define as a Config object unless defined
     def config
       @@config ||= Config.new
     end
