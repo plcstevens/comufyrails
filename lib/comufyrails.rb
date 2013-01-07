@@ -33,13 +33,7 @@ module Comufyrails
   end
 
   class << self
-    def logger
-      @@logger
-    end
-
-    def logger=(param)
-      @@logger ||= param
-    end
+    attr_accessor :logger
 
     # define as a Config object unless defined
     def config
