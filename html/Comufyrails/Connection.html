@@ -101,6 +101,8 @@
 
   <div id="description" class="description">
     
+<p>TODO: Documentation</p>
+
   </div><!-- description -->
 
   
@@ -186,8 +188,8 @@ private or not.</p>
 
           
           <div class="method-source-code" id="send_facebook_message-source">
-            <pre><span class="ruby-comment"># File lib/comufyrails/connection.rb, line 96</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send_facebook_message</span>(<span class="ruby-identifier">description</span>, <span class="ruby-identifier">content</span>, <span class="ruby-identifier">uids</span>, <span class="ruby-identifier">opts</span> = {})
+            <pre><span class="ruby-comment"># File lib/comufyrails/connection.rb, line 98</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">send_facebook_message</span>(<span class="ruby-identifier">description</span>, <span class="ruby-identifier">content</span>, <span class="ruby-identifier">uids</span>, <span class="ruby-identifier">opts</span> = {})
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;You must include a description for the message.&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">description</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;You must include the content of the message.&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">content</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Your must have a list of uids to send messages to. uids is #{uids.inspect}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">uids</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">uids</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Array</span>
@@ -298,8 +300,8 @@ the application.</p>
 
           
           <div class="method-source-code" id="store_user-source">
-            <pre><span class="ruby-comment"># File lib/comufyrails/connection.rb, line 17</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">store_user</span>(<span class="ruby-identifier">uid</span>, <span class="ruby-identifier">tags</span>)
+            <pre><span class="ruby-comment"># File lib/comufyrails/connection.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">store_user</span>(<span class="ruby-identifier">uid</span>, <span class="ruby-identifier">tags</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;uid cannot be nil&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">uid</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">store_users</span>([<span class="ruby-identifier">uid</span>], [<span class="ruby-identifier">tags</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -354,8 +356,8 @@ tag.</p>
 
           
           <div class="method-source-code" id="store_users-source">
-            <pre><span class="ruby-comment"># File lib/comufyrails/connection.rb, line 37</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">store_users</span>(<span class="ruby-identifier">uids</span>, <span class="ruby-identifier">tags</span>)
+            <pre><span class="ruby-comment"># File lib/comufyrails/connection.rb, line 39</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">store_users</span>(<span class="ruby-identifier">uids</span>, <span class="ruby-identifier">tags</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;uids must be an Array. uids is #{uids.inspect}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">uids</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">uids</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Array</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;tags must be an Array. uids is #{tags.inspect}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">tags</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Array</span>
 

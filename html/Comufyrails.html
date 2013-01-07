@@ -69,6 +69,8 @@
     
     <li><a href="#method-c-configure">::configure</a>
     
+    <li><a href="#method-c-to_comufy_time">::to_comufy_time</a>
+    
   </ul>
 </nav>
 
@@ -100,6 +102,8 @@
 
   <div id="description" class="description">
     
+<p>TODO: Documentation</p>
+
   </div><!-- description -->
 
   
@@ -118,37 +122,37 @@
       
         <dt id="DATE_TYPE">DATE_TYPE
         
-        <dd class="description">
+        <dd class="description"><p>Date data (1988-10-01 19:50:48 YYYY-MM-DD HH:mm:SS)</p>
         
       
         <dt id="FLOAT_TYPE">FLOAT_TYPE
         
-        <dd class="description">
+        <dd class="description"><p>Float data accepted (32-bit float)</p>
         
       
         <dt id="GENDER_TYPE">GENDER_TYPE
         
-        <dd class="description">
+        <dd class="description"><p>Gender data (TODO: format?)</p>
         
       
         <dt id="INT_TYPE">INT_TYPE
         
-        <dd class="description">
+        <dd class="description"><p>Integer data accepted (32-bit)</p>
         
       
         <dt id="LEGAL_TYPES">LEGAL_TYPES
         
-        <dd class="description">
+        <dd class="description"><p>Data types must be one of these formats</p>
         
       
         <dt id="STRING_TYPE">STRING_TYPE
         
-        <dd class="description">
+        <dd class="description"><p>String data accepted (this is the usual type to use)</p>
         
       
         <dt id="VERSION">VERSION
         
-        <dd class="description">
+        <dd class="description"><p>Current version of this gem.</p>
         
       
       </dl>
@@ -174,13 +178,14 @@
 
         <div class="method-description">
           
-          
+          <p>if the class variable config isn’t defined, define it as <a
+href="Comufyrails/Config.html">Config</a> object</p>
           
 
           
           <div class="method-source-code" id="config-source">
-            <pre><span class="ruby-comment"># File lib/comufyrails.rb, line 20</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">config</span>
+            <pre><span class="ruby-comment"># File lib/comufyrails.rb, line 37</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">config</span>
   <span class="ruby-identifier">@@config</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- config-source -->
@@ -204,13 +209,13 @@
 
         <div class="method-description">
           
-          
+          <p>yield the <a href="Comufyrails.html">Comufyrails</a> config class variable</p>
           
 
           
           <div class="method-source-code" id="configure-source">
-            <pre><span class="ruby-comment"># File lib/comufyrails.rb, line 24</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">configure</span>
+            <pre><span class="ruby-comment"># File lib/comufyrails.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">configure</span>
   <span class="ruby-keyword">yield</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">config</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- configure-source -->
@@ -221,6 +226,49 @@
 
         
       </div><!-- configure-method -->
+
+    
+      <div id="method-c-to_comufy_time" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_comufy_time</span><span
+            class="method-args">(param)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_comufy_time-source">
+            <pre><span class="ruby-comment"># File lib/comufyrails.rb, line 46</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_comufy_time</span> <span class="ruby-identifier">param</span>
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">param</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Time</span>
+      <span class="ruby-comment"># nothing need be altered</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Date</span>
+      <span class="ruby-comment"># nothing need be altered</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">DateTime</span>
+      <span class="ruby-comment"># nothing need be altered</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>
+      <span class="ruby-comment"># attempt to parse the String</span>
+      <span class="ruby-identifier">param</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">param</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-comment"># most likely this will cause an exception, but that is up to the user to handle</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">param</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_comufy_time-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_comufy_time-method -->
 
     
     </section><!-- public-class-method-details -->
