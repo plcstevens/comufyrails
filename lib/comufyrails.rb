@@ -4,7 +4,6 @@ require "comufyrails/version"
 require "comufyrails/connection"
 require 'comufyrails/railtie' if defined?(Rails)
 
-# TODO: Documentation
 module Comufyrails
 
   # String data accepted (this is the usual type to use)
@@ -33,6 +32,7 @@ module Comufyrails
   end
 
   class << self
+    # Comufyrails logger (usually uses the Rails.logger)
     attr_accessor :logger
 
     # define as a Config object unless defined
@@ -43,11 +43,6 @@ module Comufyrails
     # yield the Comufyrails config class variable
     def configure
       yield self.config
-    end
-
-    def to_comufy_time param
-      param = DateTime.parse(param) if param.is_a? String
-      param.strftime("%Y-%m-%d %H:%M:%S")
     end
   end
 end

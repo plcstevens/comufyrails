@@ -1,15 +1,15 @@
 require 'rails'
+require 'comufyrails'
 
-# TODO: Documentation
 class Comufyrails::Railtie < Rails::Railtie
+
+  # this allows users to manage settings just like they manage rails settings
+  config.comufy_rails = ActiveSupport::OrderedOptions.new # enable namespaced configuration in Rails environment
 
   # initialize our logger
   initializer 'Rails logger' do
     Comufyrails.logger = Rails.logger
   end
-
-  # this allows users to manage settings just like they manage rails settings
-  config.comufy_rails = ActiveSupport::OrderedOptions.new # enable namespaced configuration in Rails environment
 
   initializer "comufyrails.configure" do |app|
     Comufyrails.configure do |config|

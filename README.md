@@ -64,7 +64,7 @@ behaviour for your model and asynchronously send the data to Comufy.
 
 ```ruby
   def after_save(user)
-    data = { fact: user.fact }
+    data = { dob: Comufyrails.comufy_time(user.dob), fact: user.fact }
     Comufyrails::Connection.store_user(user.facebook_id, data)
   end
 ```
