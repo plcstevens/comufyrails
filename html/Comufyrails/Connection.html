@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Comufyrails::Connection - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/comufyrails/connection.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-send_facebook_message">::send_facebook_message</a>
+    
+    <li><a href="#method-c-store_user">::store_user</a>
+    
+    <li><a href="#method-c-store_users">::store_users</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Comufyrails.html">Comufyrails</a>
+  
+    <li><a href="../Comufyrails/Config.html">Comufyrails::Config</a>
+  
+    <li><a href="../Comufyrails/Connection.html">Comufyrails::Connection</a>
+  
+    <li><a href="../Comufyrails/Railtie.html">Comufyrails::Railtie</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Comufyrails::Connection</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-send_facebook_message" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">send_facebook_message</span><span
+            class="method-args">(description, content, uids, opts = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Sends a message with the description and content to the facebook id or id’s
+specified, allowing multiple options to be set concerning the privacy, and
+content of the message.</p>
+<ul><li>
+<p>(String) <code>description</code> - Description of the message. Useful to
+aggregate data in the Comufy dashboard.</p>
+</li><li>
+<p>(String) <code>content</code> - The text message content.</p>
+</li><li>
+<p>(Array) <code>uids</code> - The Facebook IDs of the users to send the
+message to.</p>
+</li><li>
+<p>(Hash) <code>opts</code> - Optional settings you can pass.</p>
+<ul><li>
+<p>(Integer) <code>delivery_time</code> - The scheduled time of delivery
+defaults to now. (Unix millisecond timestamps)</p>
+</li><li>
+<p>(Boolean) <code>shorten_urls</code> - UNTRACKED if false, otherwise
+defaults to Comufy TRACKED</p>
+</li><li>
+<p>(String) <code>filter</code> - filtering condition in CFL.</p>
+</li><li>
+<p>(Hash) <code>message_options</code> - options to set for the message
+especially.</p>
+<ul><li>
+<p>(String) <code>name</code> - facebook message name.</p>
+</li><li>
+<p>(String) <code>link</code> - Facebook message link.</p>
+</li><li>
+<p>(String) <code>caption</code> - facebook message caption.</p>
+</li><li>
+<p>(String) <code>description</code> - description of the message.</p>
+</li><li>
+<p>(String) <code>picture</code> - URL of the image that should appear on the
+image section of the message.</p>
+</li><li>
+<p>(Boolean) <code>privacy</code> -  whether the message should be sent
+private or not.</p>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<h1 id="method-c-send_facebook_message-label-Example">Example</h1>
+
+<pre>Comufyrails::Connection.send_facebook_message(
+  DESCRIPTION, CONTENT_GOES_HERE, UIDS,
+  message_options: {
+    private: true, link: 'www.example.com', name: 'test', description: 'description'
+  }
+)</pre>
+          
+
+          
+          <div class="method-source-code" id="send_facebook_message-source">
+            <pre><span class="ruby-comment"># File lib/comufyrails/connection.rb, line 96</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">send_facebook_message</span>(<span class="ruby-identifier">description</span>, <span class="ruby-identifier">content</span>, <span class="ruby-identifier">uids</span>, <span class="ruby-identifier">opts</span> = {})
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;You must include a description for the message.&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">description</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;You must include the content of the message.&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">content</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Your must have a list of uids to send messages to. uids is #{uids.inspect}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">uids</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">uids</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Array</span>
+
+  <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">symbolize_keys</span>(<span class="ruby-identifier">opts</span>)
+
+  <span class="ruby-identifier">facebook_ids</span>  = <span class="ruby-node">&quot;FACEBOOK_ID=\&quot;#{uids.join('\&quot; OR FACEBOOK_ID=\&quot;')}\&quot;&quot;</span>
+  <span class="ruby-identifier">filter</span>        = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:filter</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-identifier">delivery_time</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:delivery_time</span>]
+  <span class="ruby-identifier">shorten_urls</span>  = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:shorten_urls</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:shorten_urls</span>] <span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">options</span>       = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:message_options</span>]
+
+  <span class="ruby-identifier">data</span> = {
+      <span class="ruby-identifier">cd</span><span class="ruby-operator">:</span>              <span class="ruby-value">83</span>,
+      <span class="ruby-identifier">token</span><span class="ruby-operator">:</span>           <span class="ruby-constant">Comufyrails</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">access_token</span>,
+      <span class="ruby-identifier">applicationName</span><span class="ruby-operator">:</span> <span class="ruby-constant">Comufyrails</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">app_name</span>,
+      <span class="ruby-identifier">description</span><span class="ruby-operator">:</span>     <span class="ruby-identifier">description</span>,
+      <span class="ruby-identifier">content</span><span class="ruby-operator">:</span>         <span class="ruby-identifier">content</span>,
+      <span class="ruby-identifier">filter</span><span class="ruby-operator">:</span>          <span class="ruby-node">&quot;#{facebook_ids} #{filter}&quot;</span>
+  }
+  <span class="ruby-identifier">data</span>[<span class="ruby-value">:deliveryTime</span>]           = <span class="ruby-identifier">delivery_time</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">delivery_time</span>
+  <span class="ruby-identifier">data</span>[<span class="ruby-value">:trackingMode</span>]           = <span class="ruby-string">&quot;UNTRACKED&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">shorten_urls</span>
+  <span class="ruby-identifier">data</span>[<span class="ruby-value">:facebookTargetingMode</span>]  = <span class="ruby-string">&quot;NOTIFICATION&quot;</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>
+    <span class="ruby-identifier">data</span>[<span class="ruby-value">:fbMessagePrivacyMode</span>] = <span class="ruby-identifier">options</span>[<span class="ruby-value">:private</span>] <span class="ruby-operator">?</span> <span class="ruby-string">&quot;PRIVATE&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;PUBLIC&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:private</span>)
+    <span class="ruby-identifier">data</span>[<span class="ruby-value">:fbMessageCaption</span>]     = <span class="ruby-identifier">options</span>[<span class="ruby-value">:caption</span>]                        <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:caption</span>)
+    <span class="ruby-identifier">data</span>[<span class="ruby-value">:fbMessageLink</span>]        = <span class="ruby-identifier">options</span>[<span class="ruby-value">:link</span>]                           <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:link</span>)
+    <span class="ruby-identifier">data</span>[<span class="ruby-value">:fbMessageName</span>]        = <span class="ruby-identifier">options</span>[<span class="ruby-value">:name</span>]                           <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:name</span>)
+    <span class="ruby-identifier">data</span>[<span class="ruby-value">:fbMessageDescription</span>] = <span class="ruby-identifier">options</span>[<span class="ruby-value">:description</span>]                    <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:description</span>)
+    <span class="ruby-identifier">data</span>[<span class="ruby-value">:fbMessagePictureUrl</span>]  = <span class="ruby-identifier">options</span>[<span class="ruby-value">:picture</span>]                        <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:picture</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-constant">EM</span>.<span class="ruby-identifier">synchrony</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">http</span> = <span class="ruby-constant">EventMachine</span><span class="ruby-operator">::</span><span class="ruby-constant">HttpRequest</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Comufyrails</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">base_api_url</span>).<span class="ruby-identifier">post</span>(
+        <span class="ruby-value">:body</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-identifier">request</span><span class="ruby-operator">:</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_json</span> }, <span class="ruby-value">:initheader</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-string">'Content-Type'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/json'</span> })
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">http</span>.<span class="ruby-identifier">response_header</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-value">200</span>
+      <span class="ruby-identifier">message</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">http</span>.<span class="ruby-identifier">response</span>)
+      <span class="ruby-keyword">case</span> <span class="ruby-identifier">message</span>[<span class="ruby-string">&quot;cd&quot;</span>]
+        <span class="ruby-keyword">when</span> <span class="ruby-value">383</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;383 - Success! - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">416</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;416 - _ERROR_MSG_SEND_FAILED - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">475</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;475 - Invalid parameters provided - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">551</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;551 _ERROR_TAG_VALUE_NOT_FOUND - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">603</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">607</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">617</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;617 - _ERROR_DOMAIN_APPLICATION_TAG_NOT_FOUND - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">648</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;648 - _ERROR_FACEBOOK_APPLICATION_USER_NOT_FOUND - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">673</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;673 - Invalid time exception - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">679</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;679 - _ERROR_MALFORMED_TARGETING_EXPRESSION - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;UNKNOWN RESPONSE - data = #{data} - message = #{message}.&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;Server responded with #{http.response_header}.&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- send_facebook_message-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- send_facebook_message-method -->
+
+    
+      <div id="method-c-store_user" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">store_user</span><span
+            class="method-args">(uid, tags)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>This API call allows you to register a Facebook user of your application
+into Comufy’s social CRM. If this user was already registered with Comufy,
+their information will be updated.</p>
+<ul><li>
+<p>(String) <code>uid</code> - The Facebook ID of the user you’ll be adding.</p>
+</li><li>
+<p>(Hash) <code>tags</code> - The tags you’ll setting for this user.</p>
+<ul><li>
+<p>(String) <code>tag_name</code> - Must correspond to one of the tag names of
+the application.</p>
+</li><li>
+<p>(String) <code>value</code> - Must be the correct value type for that tag.</p>
+</li></ul>
+</li></ul>
+
+<h1 id="method-c-store_user-label-Example">Example</h1>
+
+<pre>Comufyrails::Connection.store_user USER_FACEBOOK_ID, { dob: '1978-10-01 19:50:48' }</pre>
+          
+
+          
+          <div class="method-source-code" id="store_user-source">
+            <pre><span class="ruby-comment"># File lib/comufyrails/connection.rb, line 17</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">store_user</span>(<span class="ruby-identifier">uid</span>, <span class="ruby-identifier">tags</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;uid cannot be nil&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">uid</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">store_users</span>([<span class="ruby-identifier">uid</span>], [<span class="ruby-identifier">tags</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- store_user-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- store_user-method -->
+
+    
+      <div id="method-c-store_users" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">store_users</span><span
+            class="method-args">(uids, tags)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>This API call allows you to register multiple Facebook users of your
+application into Comufy’s social CRM. If these users were already
+registered into Comufy, their information will be updated.</p>
+<ul><li>
+<p>(Array) <code>uids</code> - The users you wish to add/update.</p>
+</li><li>
+<p>(Array) <code>tags</code> - A list of hashes for each of the users.</p>
+<ul><li>
+<p>(Hash) <code>tag</code></p>
+<ul><li>
+<p>(String) <code>tag_name</code> - Must correspond to one of the tag names of
+the application.</p>
+</li><li>
+<p>(String) <code>value</code>    - Must be the correct value type for that
+tag.</p>
+</li></ul>
+</li></ul>
+</li></ul>
+
+<h1 id="method-c-store_users-label-Example">Example</h1>
+
+<pre class="ruby"><span class="ruby-constant">Comufyrails</span><span class="ruby-operator">::</span><span class="ruby-constant">Connection</span>.<span class="ruby-identifier">store_users</span>(
+  [ <span class="ruby-constant">USER_ID</span>, <span class="ruby-constant">USER_ID_2</span> ],
+  [ { <span class="ruby-string">'dob'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'1978-10-01 19:50:48'</span> }, { <span class="ruby-string">'dob'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'1978-10-01 19:50:48'</span>}]
+)
+</pre>
+          
+
+          
+          <div class="method-source-code" id="store_users-source">
+            <pre><span class="ruby-comment"># File lib/comufyrails/connection.rb, line 37</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">store_users</span>(<span class="ruby-identifier">uids</span>, <span class="ruby-identifier">tags</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;uids must be an Array. uids is #{uids.inspect}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">uids</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">uids</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Array</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;tags must be an Array. uids is #{tags.inspect}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">tags</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Array</span>
+
+  <span class="ruby-identifier">zipped</span> = <span class="ruby-identifier">uids</span>.<span class="ruby-identifier">zip</span>(<span class="ruby-identifier">tags</span>)
+  <span class="ruby-identifier">data</span> = {
+      <span class="ruby-identifier">cd</span><span class="ruby-operator">:</span>              <span class="ruby-string">'88'</span>,
+      <span class="ruby-identifier">token</span><span class="ruby-operator">:</span>           <span class="ruby-constant">Comufyrails</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">access_token</span>,
+      <span class="ruby-identifier">applicationName</span><span class="ruby-operator">:</span> <span class="ruby-constant">Comufyrails</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">app_name</span>,
+      <span class="ruby-identifier">accounts</span><span class="ruby-operator">:</span>        <span class="ruby-identifier">zipped</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">uid</span>, <span class="ruby-identifier">tagged</span> <span class="ruby-operator">|</span> <span class="ruby-constant">Hash</span>[<span class="ruby-value">:account</span>, { <span class="ruby-identifier">fbId</span><span class="ruby-operator">:</span> <span class="ruby-identifier">uid</span>.<span class="ruby-identifier">to_s</span> }, <span class="ruby-value">:tags</span>, <span class="ruby-identifier">tagged</span>] }
+  }
+  <span class="ruby-constant">EM</span>.<span class="ruby-identifier">synchrony</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">http</span> = <span class="ruby-constant">EventMachine</span><span class="ruby-operator">::</span><span class="ruby-constant">HttpRequest</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Comufyrails</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">base_api_url</span>).<span class="ruby-identifier">post</span>(
+        <span class="ruby-value">:body</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-identifier">request</span><span class="ruby-operator">:</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_json</span> }, <span class="ruby-value">:initheader</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-string">'Content-Type'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'application/json'</span> })
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">http</span>.<span class="ruby-identifier">response_header</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-value">200</span>
+      <span class="ruby-identifier">message</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">http</span>.<span class="ruby-identifier">response</span>)
+      <span class="ruby-keyword">case</span> <span class="ruby-identifier">message</span>[<span class="ruby-string">&quot;cd&quot;</span>]
+        <span class="ruby-keyword">when</span> <span class="ruby-value">388</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;388 - Success! - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">475</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;475 - Invalid parameter provided. - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">617</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;617 - Some of the tags passed are not registered. - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">when</span> <span class="ruby-value">632</span> <span class="ruby-keyword">then</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;632 - _ERROR_FACEBOOK_PAGE_NOT_FOUND - data = #{data} - message = #{message}.&quot;</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;UNKNOWN RESPONSE - data = #{data} - message = #{message}.&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">p</span> <span class="ruby-node">&quot;Server responded with #{http.response_header}.&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- store_users-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- store_users-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

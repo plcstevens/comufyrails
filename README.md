@@ -56,7 +56,22 @@ COMUFY_BASE_API_URL - Full HTTP address to connect to, defaults to our service.
 
 ## Usage
 
-TODO: How to use this gem.
+In its current iteration you can use this gem to send information to Comufy, allowing you to add users, update data
+on the users and send messages/notifications to your users via your own service.
+
+If you have your own user database, and wish to keep the Comufy database in sync with it, you can use the observer
+behaviour for your model and asynchronously send the data to Comufy.
+
+```ruby
+  def after_save(user)
+    data = { fact: user.fact }
+    Comufyrails::Connection.store_user(user.facebook_id, data)
+  end
+```
+
+This is non-blocking and the results are printed to the log.
+
+
 
 ## Contributing
 
