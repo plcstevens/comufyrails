@@ -1,6 +1,9 @@
 # Comufyrails
 
-TODO: Write a gem description
+This gem allows [Ruby on Rails](http://rubyonrails.org/) projects to connect with the
+[Comufy service](http://www.comufy.com/). It uses asynchronous calls and separate rake tasks to communicate with
+the Comufy API, allowing you to create, update your list of users as well as registering new tags and send
+messages to your users.
 
 ## Installation
 
@@ -18,6 +21,9 @@ Or install it yourself as:
 
     $ gem install comufyrails
 
+As this uses EventMachine to perform asynchronous methods you need to use a web server that supports this, such
+as [thin](http://code.macournoyer.com/thin/).
+
 ## Configuration
 
 The gem requires configuration before being used. To get these values you must create an account with Comufy through
@@ -32,7 +38,7 @@ can get these values by using this heroku command below and looking for all valu
 
     heroku config
 
-You can set the values in your config/environments/[ENVIRONMENT].rb in the same manner you set rails-specific values.
+You can set the values in your config/environments/*.rb in the same manner you set rails-specific values.
 
 ```ruby
 config.comufy_rails.app_name      = 'YOUR_APPLICATION_NAME'
@@ -50,7 +56,7 @@ COMUFY_BASE_API_URL - Full HTTP address to connect to, defaults to our service.
 
 ## Usage
 
-TODO: Link to gists displaying the examples.
+TODO: How to use this gem.
 
 ## Contributing
 
