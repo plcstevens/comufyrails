@@ -10,11 +10,23 @@ namespace :comufy do
     raise ArgumentError, "Must specify a type for the tag." unless args.type
 
     if Comufyrails.config.app_name.blank?
-      p "Cannot find the application name, please set config.comufy_rails.app_name in your environment initializer."
+      p "
+        Cannot find the application name, is it currently set to nil or an empty string?\n
+        Please check config.comufy_rails.app_name in your environment initializer or the environment variable
+        COMUFY_APP_NAME are valid strings.
+        "
     elsif Comufyrails.config.base_api_url.blank?
-      p "Cannot find the base api url, please set config.comufy_rails.base_api_url in your environment initializer."
+      p "
+        Cannot find the base api url, is it currently set to nil or an empty string?\n
+        Please check config.comufy_rails.base_api_url in your environment initializer or the environment variable
+        COMUFY_BASE_API_URL are valid strings.
+        "
     elsif Comufyrails.config.access_token.blank?
-      p "Cannot find the access token, please set config.comufy_rails.access_token in your environment initializer."
+      p "
+        Cannot find the access token, is it currently set to nil or an empty string?\n
+        Please check config.comufy_rails.access_token in your environment initializer or the environment variable
+        COMUFY_TOKEN are valid strings.
+        "
     elsif not Comufyrails::LEGAL_TYPES.include?(args.type)
       p "The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(two_words_connector: ' or ', last_word_connector: ', or ')}"
     else
@@ -56,11 +68,23 @@ namespace :comufy do
     raise ArgumentError, "Must specify a name for the tag." unless args.name
 
     if Comufyrails.config.app_name.blank?
-      p "Cannot find the application name, please set config.comufy_rails.app_name in your environment initializer."
+      p "
+        Cannot find the application name, is it currently set to nil or an empty string?\n
+        Please check config.comufy_rails.app_name in your environment initializer or the environment variable
+        COMUFY_APP_NAME are valid strings.
+        "
     elsif Comufyrails.config.base_api_url.blank?
-      p "Cannot find the base api url, please set config.comufy_rails.base_api_url in your environment initializer."
+      p "
+        Cannot find the base api url, is it currently set to nil or an empty string?\n
+        Please check config.comufy_rails.base_api_url in your environment initializer or the environment variable
+        COMUFY_BASE_API_URL are valid strings.
+        "
     elsif Comufyrails.config.access_token.blank?
-      p "Cannot find the access token, please set config.comufy_rails.access_token in your environment initializer."
+      p "
+        Cannot find the access token, is it currently set to nil or an empty string?\n
+        Please check config.comufy_rails.access_token in your environment initializer or the environment variable
+        COMUFY_TOKEN are valid strings.
+        "
     else
       data = {
           applicationName: Comufyrails.config.app_name,
@@ -92,7 +116,7 @@ namespace :comufy do
 
   private
 
-  # posts the form to the given url as json and blocks till the response.
+  # posts the form to the given url as json and blocks till a response is given.
   def call_api(url, data)
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)

@@ -4,9 +4,11 @@ TODO: Write a gem description
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add any of the lines to your application's Gemfile:
 
     gem 'comufyrails'
+    gem 'comufyrails', :git => "git://github.com/plcstevens/comufyrails.git"
+    gem 'comufyrails', :path => "/path/to/comufyrails/directory"
 
 And then execute:
 
@@ -16,9 +18,41 @@ Or install it yourself as:
 
     $ gem install comufyrails
 
+## Configuration
+
+The gem requires configuration before being used. To get these values you must create an account with Comufy through
+our Heroku service, or by yourself.
+
+On Heroku you should add the Comufy add-on and follow the configuration steps it gives you. This will automatically
+set the environment variables for your Comufy account that this gem will use. If you are not using our Heroku
+service you will need to find another way to get these values, listed below.
+
+If you are using this on your local development machine or elsewhere you have two ways to configure this gem. You
+can get these values by typiing
+
+    heroku config
+
+And looking for all COMUFY_* values.
+
+You can set the values in your config/environments/*.rb in the same manner you set rails-specific values.
+
+```ruby
+config.comufy_rails.app_name      = 'YOUR_APPLICATION_NAME'
+config.comufy_rails.access_token  = 'YOUR_ACCESS_TOKEN'
+config.comufy_rails.base_api_url  = 'COMUFY'
+```
+
+Alternatively you can set these in your environment/path.
+
+```
+COMUFY_APP_NAME     - Application name on Comufy, defaults to your Ruby on Rails application name.
+COMUFY_TOKEN        - Token given to you by our Comufy Heroku service or from Comufy directly.
+COMUFY_BASE_API_URL - Full HTTP address to connect to, defaults to our service.
+```
+
 ## Usage
 
-TODO: Write usage instructions here
+
 
 ## Contributing
 

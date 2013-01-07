@@ -14,7 +14,7 @@ module Comufyrails
   LEGAL_TYPES = [STRING_TYPE, DATE_TYPE, GENDER_TYPE, INT_TYPE, FLOAT_TYPE]
 
   class Config
-    attr_accessor :app_name, :username, :password, :access_token, :expiry_time, :base_api_url
+    attr_accessor :app_name, :access_token, :expiry_time, :base_api_url
   end
 
   def self.config
