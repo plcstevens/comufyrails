@@ -28,13 +28,11 @@ set the environment variables for your Comufy account that this gem will use. If
 service you will need to find another way to get these values, listed below.
 
 If you are using this on your local development machine or elsewhere you have two ways to configure this gem. You
-can get these values by typiing
+can get these values by using this heroku command below and looking for all values starting with 'COMUFY_'.
 
     heroku config
 
-And looking for all COMUFY_* values.
-
-You can set the values in your config/environments/*.rb in the same manner you set rails-specific values.
+You can set the values in your config/environments/[ENVIRONMENT].rb in the same manner you set rails-specific values.
 
 ```ruby
 config.comufy_rails.app_name      = 'YOUR_APPLICATION_NAME'
@@ -52,7 +50,7 @@ COMUFY_BASE_API_URL - Full HTTP address to connect to, defaults to our service.
 
 ## Usage
 
-
+TODO: Link to gists displaying the examples.
 
 ## Contributing
 
