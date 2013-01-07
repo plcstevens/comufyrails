@@ -37,6 +37,10 @@ module Comufyrails
       @@logger
     end
 
+    def logger=(param)
+      @@logger ||= param
+    end
+
     # define as a Config object unless defined
     def config
       @@config ||= Config.new
