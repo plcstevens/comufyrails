@@ -38,12 +38,9 @@ module Comufyrails::Connection
     #     [ { 'dob' => '1978-10-01 19:50:48' }, { 'dob' => '1978-10-01 19:50:48'}]
     #   )
     def store_users(uids, tags)
-      #raise ArgumentError, "uids must be an Array." unless uids.is_a? Array
-      #raise ArgumentError, "tags must be an Array." unless tags.is_a? Array
-
-      # ensure both parameters are Array's and zip them together
-      uids = Array[uids] unless uids.is_a? Array
-      tags = Array[tags] unless tags.is_a? Array
+      raise ArgumentError, "uids must be an Array." unless uids.is_a? Array
+      raise ArgumentError, "tags must be an Array." unless tags.is_a? Array
+      
       zipped = uids.zip(tags)
 
       data = {
@@ -101,13 +98,11 @@ module Comufyrails::Connection
     #      }
     #    )
     def send_facebook_message(description, content, uids, opts = {})
-      #raise ArgumentError, "Description must be a String."           unless description.is_a? String
-      #raise ArgumentError, "Content must be a String."               unless content.is_a? String
-      #raise ArgumentError, "Uids must be an Array."                  unless uids.is_a? Array
-      #raise ArgumentError, "Opts must be a Hash if you include it."  unless opts.is_a? Hash
+      raise ArgumentError, "Description must be a String."           unless description.is_a? String
+      raise ArgumentError, "Content must be a String."               unless content.is_a? String
+      raise ArgumentError, "Uids must be an Array."                  unless uids.is_a? Array
+      raise ArgumentError, "Opts must be a Hash if you include it."  unless opts.is_a? Hash
 
-      # Uids must always be an Array
-      uids = Array[uids] unless uids.is_a? Array
       opts.symbolize_keys!
 
       facebook_ids  = "FACEBOOK.ID=\"#{uids.join('\" OR FACEBOOK.ID=\"')}\""
