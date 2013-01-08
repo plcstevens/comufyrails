@@ -119,7 +119,8 @@ module Comufyrails::Connection
           description:     description,
           content:         content,
           filter:          "#{facebook_ids} #{filter}",
-          targets:         uids.map { |uid| Hash[:account, { fbId: uid.to_s }] }
+          #targets:         uids.map { |uid| Hash[:account, { fbId: uid.to_s }] },
+          #tags:            { fact: "tetest" }
       }
       data[:deliveryTime]           = delivery_time if delivery_time
       data[:trackingMode]           = "UNTRACKED" unless shorten_urls
