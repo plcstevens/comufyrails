@@ -167,15 +167,39 @@ module Comufyrails::Connection
       end
     end
 
-    # TODO: Currently doesn't work (likely the filter needs to be set to something)
+    # Lists all current tags for this application
+    def get_tags
+      data = {
+          cd:               101,
+          token:            Comufyrails.config.access_token,
+          applicationName:  Comufyrails.config.app_name
+      }
+
+      EM.synchrony do
+        http = EventMachine::HttpRequest.new(Comufyrails.config.base_api_url).post(
+            :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
+        if http.response_header.status == 200
+          message = JSON.parse(http.response)
+          case message["cd"]
+            when 219 then
+              p "219 - Success! - data = #{data} - message = #{message}."
+            else
+              p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+          end
+        end
+      end
+    end
+
+    # Lists all current users data, with any additional filters you want.
+    # TODO: Replace USER.USER_STATE with something we know will get all users.
     def get_users filter = ""
       data = {
           cd:               82,
           token:            Comufyrails.config.access_token,
           applicationName:  Comufyrails.config.app_name,
           since:            1314835200000,
-          fetchMode:        "STATS_ONLY",
-          filter:           filter
+          fetchMode:        "ALL",
+          filter:           "USER.USER_STATE=\"Unknown\" #{filter}"
       }
 
       EM.synchrony do
