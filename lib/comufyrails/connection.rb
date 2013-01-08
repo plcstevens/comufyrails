@@ -96,9 +96,12 @@ module Comufyrails::Connection
     #      }
     #    )
     def send_facebook_message(description, content, uids, opts = {})
-      raise ArgumentError, "You must include a description for the message." unless description and description.is_a? String
-      raise ArgumentError, "You must include the content of the message." unless content and content.is_a? String
-      raise ArgumentError, "Your must have a list of uids to send messages to. uids is #{uids.inspect}" unless uids and uids.is_a? Array
+      raise ArgumentError, "You must include a description for the message." unless
+          description and description.is_a? String
+      raise ArgumentError, "You must include the content of the message." unless
+          content and content.is_a? String
+      raise ArgumentError, "Your must have a list of uids to send messages to. uids is #{uids.inspect}" unless
+          uids and uids.is_a? Array
 
       opts = symbolize_keys(opts)
 
@@ -164,8 +167,8 @@ module Comufyrails::Connection
       end
     end
 
+    # TODO: Currently doesn't work (likely the filter needs to be set to something)
     def get_users filter = ""
-
       data = {
           cd:               82,
           token:            Comufyrails.config.access_token,

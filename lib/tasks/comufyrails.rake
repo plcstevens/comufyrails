@@ -28,7 +28,8 @@ namespace :comufy do
         COMUFY_TOKEN are valid strings.
         "
     elsif not Comufyrails::LEGAL_TYPES.include?(args.type)
-      p "The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(two_words_connector: ' or ', last_word_connector: ', or ')}"
+      p "The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(
+          two_words_connector: ' or ', last_word_connector: ', or ')}"
     else
       data = {
           applicationName: Comufyrails.config.app_name,
@@ -58,7 +59,7 @@ namespace :comufy do
             p  "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
         end
       else
-        p "Authentication failed when sending #{data}. Please get in touch with Comufy if you cannot resolve the problem."
+        p "Authentication failed when sending #{data}. Please get in touch with Comufy if you cannot resolve this."
       end
     end
   end
