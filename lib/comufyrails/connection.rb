@@ -17,14 +17,15 @@ module Comufyrails::Connection
     #
     #   Comufyrails::Connection.store_user USER_FACEBOOK_ID, { dob: '1978-10-01 19:50:48' }
     def store_user(uid, tags)
-      raise ArgumentError, "uid cannot be nil" unless uid
-      self.store_users([uid], [tags])
+      self.store_users(uid, tags)
     end
 
     # This API call allows you to register multiple Facebook users of your application into Comufy’s social CRM.
     # If these users were already registered into Comufy, their information will be updated.
     #
-    # * (Array) +uids+ - The users you wish to add/update.
+    # Please note that you can provide a single String or Integer for uids and one +tag+ if you wish.
+    #
+    # * (Array) +uids+ - A list of (String/Integer) user ids you wish to add/update.
     # * (Array) +tags+ - A list of hashes for each of the users.
     #   * (Hash) +tag+
     #     * (String) +tag_name+ - Must correspond to one of the tag names of the application.
@@ -37,10 +38,14 @@ module Comufyrails::Connection
     #     [ { 'dob' => '1978-10-01 19:50:48' }, { 'dob' => '1978-10-01 19:50:48'}]
     #   )
     def store_users(uids, tags)
-      raise ArgumentError, "uids must be an Array. uids is #{uids.inspect}" unless uids and uids.is_a? Array
-      raise ArgumentError, "tags must be an Array. uids is #{tags.inspect}" unless tags and tags.is_a? Array
+      #raise ArgumentError, "uids must be an Array." unless uids.is_a? Array
+      #raise ArgumentError, "tags must be an Array." unless tags.is_a? Array
 
+      # ensure both parameters are Array's and zip them together
+      uids = Array[uids] unless uids.is_a? Array
+      tags = Array[tags] unless tags.is_a? Array
       zipped = uids.zip(tags)
+
       data = {
           cd:              '88',
           token:           Comufyrails.config.access_token,
@@ -96,13 +101,13 @@ module Comufyrails::Connection
     #      }
     #    )
     def send_facebook_message(description, content, uids, opts = {})
-      raise ArgumentError, "You must include a description for the message." unless
-          description and description.is_a? String
-      raise ArgumentError, "You must include the content of the message." unless
-          content and content.is_a? String
-      raise ArgumentError, "Your must have a list of uids to send messages to. uids is #{uids.inspect}" unless
-          uids and uids.is_a? Array
+      #raise ArgumentError, "Description must be a String."           unless description.is_a? String
+      #raise ArgumentError, "Content must be a String."               unless content.is_a? String
+      #raise ArgumentError, "Uids must be an Array."                  unless uids.is_a? Array
+      #raise ArgumentError, "Opts must be a Hash if you include it."  unless opts.is_a? Hash
 
+      # Uids must always be an Array
+      uids = Array[uids] unless uids.is_a? Array
       opts.symbolize_keys!
 
       facebook_ids  = "FACEBOOK.ID=\"#{uids.join('\" OR FACEBOOK.ID=\"')}\""
@@ -167,7 +172,8 @@ module Comufyrails::Connection
       end
     end
 
-    # Lists all current tags for this application
+    # Provides a list of all tags for this application.
+    # If you provide a block it will yield the response, otherwise it will be sent the log.
     def get_tags
       data = {
           cd:               101,
@@ -197,6 +203,7 @@ module Comufyrails::Connection
     end
 
     # Lists all current users data, with any additional filters you want.
+    # If you provide a block it will yield the response, otherwise it will be sent the log.
     # TODO: Replace USER.USER_STATE with something we know will get all users.
     def get_users filter = ""
       data = {
