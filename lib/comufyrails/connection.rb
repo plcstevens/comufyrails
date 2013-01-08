@@ -3,8 +3,8 @@ require "em-synchrony/em-http"
 
 # TODO: Documentation
 module Comufyrails::Connection
-
   class << self
+
     # This API call allows you to register a Facebook user of your application into Comufy’s social CRM.
     # If this user was already registered with Comufy, their information will be updated.
     #
