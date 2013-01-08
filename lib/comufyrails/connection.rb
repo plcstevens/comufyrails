@@ -180,12 +180,18 @@ module Comufyrails::Connection
             :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
         if http.response_header.status == 200
           message = JSON.parse(http.response)
-          case message["cd"]
-            when 219 then
-              p "219 - Success! - data = #{data} - message = #{message}."
-            else
-              p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+          if block_given?
+            yield message
+          else
+            case message["cd"]
+              when 219 then
+                p "219 - Success! - data = #{data} - message = #{message}."
+              else
+                p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+            end
           end
+        else
+          p "Server responded with #{http.response_header}."
         end
       end
     end
@@ -207,14 +213,20 @@ module Comufyrails::Connection
             :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
         if http.response_header.status == 200
           message = JSON.parse(http.response)
-          case message["cd"]
-            when 382 then
-              p "382 - Success! - data = #{data} - message = #{message}."
-            when 692 then
-              p "692 - Invalid filter/filter not found - data = #{data} - message = #{message}."
-            else
-              p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+          if block_given?
+            yield message
+          else
+            case message["cd"]
+              when 382 then
+                p "382 - Success! - data = #{data} - message = #{message}."
+              when 692 then
+                p "692 - Invalid filter/filter not found - data = #{data} - message = #{message}."
+              else
+                p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+            end
           end
+        else
+          p "Server responded with #{http.response_header}."
         end
       end
     end
