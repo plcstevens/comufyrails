@@ -95,7 +95,6 @@ module Comufyrails::Connection
     #        private: true, link: 'www.example.com', name: 'test', description: 'description'
     #      }
     #    )
-    # TODO: Currently doesn't work, gives a 617 error every time, reason unclear.
     def send_facebook_message(description, content, uids, opts = {})
       raise ArgumentError, "You must include a description for the message." unless
           description and description.is_a? String
@@ -106,7 +105,7 @@ module Comufyrails::Connection
 
       opts.symbolize_keys!
 
-      facebook_ids  = "FACEBOOK_ID=\"#{uids.join('\" OR FACEBOOK_ID=\"')}\""
+      facebook_ids  = "FACEBOOK.ID=\"#{uids.join('\" OR FACEBOOK.ID=\"')}\""
       filter        = opts[:filter] || ""
       delivery_time = opts[:delivery_time]
       shorten_urls  = opts.has_key?(:shorten_urls) ? opts[:shorten_urls] : true
@@ -118,9 +117,7 @@ module Comufyrails::Connection
           applicationName: Comufyrails.config.app_name,
           description:     description,
           content:         content,
-          filter:          "#{facebook_ids} #{filter}",
-          #targets:         uids.map { |uid| Hash[:account, { fbId: uid.to_s }] },
-          #tags:            { fact: "tetest" }
+          filter:          "#{facebook_ids} #{filter}"
       }
       data[:deliveryTime]           = delivery_time if delivery_time
       data[:trackingMode]           = "UNTRACKED" unless shorten_urls
