@@ -95,6 +95,7 @@ module Comufyrails::Connection
     #        private: true, link: 'www.example.com', name: 'test', description: 'description'
     #      }
     #    )
+    # TODO: Currently doesn't work, gives a 617 error every time, reason unclear.
     def send_facebook_message(description, content, uids, opts = {})
       raise ArgumentError, "You must include a description for the message." unless
           description and description.is_a? String
@@ -103,7 +104,7 @@ module Comufyrails::Connection
       raise ArgumentError, "Your must have a list of uids to send messages to. uids is #{uids.inspect}" unless
           uids and uids.is_a? Array
 
-      opts = symbolize_keys(opts)
+      opts.symbolize_keys!
 
       facebook_ids  = "FACEBOOK_ID=\"#{uids.join('\" OR FACEBOOK_ID=\"')}\""
       filter        = opts[:filter] || ""
@@ -117,7 +118,8 @@ module Comufyrails::Connection
           applicationName: Comufyrails.config.app_name,
           description:     description,
           content:         content,
-          filter:          "#{facebook_ids} #{filter}"
+          filter:          "#{facebook_ids} #{filter}",
+          targets:         uids.map { |uid| Hash[:account, { fbId: uid.to_s }] }
       }
       data[:deliveryTime]           = delivery_time if delivery_time
       data[:trackingMode]           = "UNTRACKED" unless shorten_urls
@@ -192,7 +194,6 @@ module Comufyrails::Connection
               p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
           end
         end
-        EventMachine.stop
       end
     end
 
