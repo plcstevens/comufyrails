@@ -46,7 +46,7 @@ You can set the values in your config/environments/*.rb in the same manner you s
 ```ruby
 config.comufy_rails.app_name      = 'YOUR_APPLICATION_NAME'
 config.comufy_rails.access_token  = 'YOUR_ACCESS_TOKEN'
-config.comufy_rails.base_api_url  = 'COMUFY'
+config.comufy_rails.url  = 'COMUFY'
 ```
 
 Alternatively you can set these in your environment/path.
@@ -54,7 +54,7 @@ Alternatively you can set these in your environment/path.
 ```
 COMUFY_APP_NAME     - Application name on Comufy, defaults to your Ruby on Rails application name.
 COMUFY_TOKEN        - Token given to you by our Comufy Heroku service or from Comufy directly.
-COMUFY_BASE_API_URL - Full HTTP address to connect to, defaults to our service.
+COMUFY_URL - Full HTTP address to connect to, defaults to our service.
 ```
 
 ## Usage
