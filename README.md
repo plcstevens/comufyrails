@@ -21,8 +21,11 @@ Or install it yourself as:
 
     $ gem install comufyrails
 
-As this uses EventMachine to perform asynchronous methods you need to use a web server that supports this, such
-as [thin](http://code.macournoyer.com/thin/).
+
+## Web servers
+
+As this gem uses EventMachine to perform asynchronous methods you need to use a web server that supports EventMachine,
+such as [thin](http://code.macournoyer.com/thin/).
 
 ## Configuration
 
