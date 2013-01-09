@@ -17,7 +17,7 @@ module Comufyrails::Connection
     #
     #   Comufyrails::Connection.store_user USER_FACEBOOK_ID, { dob: '1978-10-01 19:50:48' }
     def store_user(uid, tags)
-      self.store_users(uid, tags)
+      self.store_users([uid], [tags])
     end
 
     # This API call allows you to register multiple Facebook users of your application into Comufy’s social CRM.
