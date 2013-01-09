@@ -15,7 +15,7 @@ class Comufyrails::Railtie < Rails::Railtie
     Comufyrails.configure do |c|
       c.app_name     = app.config.comufy_rails[:app_name]     || ENV.fetch('COMUFY_APP_NAME',     ::Rails.application.class.to_s.split("::").first)
       c.access_token = app.config.comufy_rails[:access_token] || ENV.fetch('COMUFY_TOKEN',        nil)
-      c.base_api_url = app.config.comufy_rails[:base_api_url] || ENV.fetch('COMUFY_BASE_API_URL', 'http://www.sociableapi.com/xcoreweb/client')
+      c.url          = app.config.comufy_rails[:url]          || ENV.fetch('COMUFY_URL', 'http://www.sociableapi.com/xcoreweb/client')
 
       # we just want a date far into the future
       c.expiry_time  = Time.now.to_i + 1000000

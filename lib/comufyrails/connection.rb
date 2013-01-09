@@ -50,7 +50,7 @@ module Comufyrails::Connection
           accounts:        zipped.map { |uid, tagged | Hash[:account, { fbId: uid.to_s }, :tags, tagged] }
       }
       EM.synchrony do
-        http = EventMachine::HttpRequest.new(Comufyrails.config.base_api_url).post(
+        http = EventMachine::HttpRequest.new(Comufyrails.config.url).post(
             :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
         if http.response_header.status == 200
           message = JSON.parse(http.response)
@@ -133,7 +133,7 @@ module Comufyrails::Connection
       end
 
       EM.synchrony do
-        http = EventMachine::HttpRequest.new(Comufyrails.config.base_api_url).post(
+        http = EventMachine::HttpRequest.new(Comufyrails.config.url).post(
             :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
         if http.response_header.status == 200
           message = JSON.parse(http.response)
@@ -177,7 +177,7 @@ module Comufyrails::Connection
       }
 
       EM.synchrony do
-        http = EventMachine::HttpRequest.new(Comufyrails.config.base_api_url).post(
+        http = EventMachine::HttpRequest.new(Comufyrails.config.url).post(
             :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
         if http.response_header.status == 200
           message = JSON.parse(http.response)
@@ -211,7 +211,7 @@ module Comufyrails::Connection
       }
 
       EM.synchrony do
-        http = EventMachine::HttpRequest.new(Comufyrails.config.base_api_url).post(
+        http = EventMachine::HttpRequest.new(Comufyrails.config.url).post(
             :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
         if http.response_header.status == 200
           message = JSON.parse(http.response)

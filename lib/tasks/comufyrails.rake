@@ -42,7 +42,7 @@ namespace :comufy do
                                 type: args.type.to_sym
                             }]
       }
-      response = call_api(Comufyrails.config.base_api_url, data)
+      response = call_api(Comufyrails.config.url, data)
 
       if response.message == 'OK'
         message = JSON.parse(response.read_body)
@@ -95,7 +95,7 @@ namespace :comufy do
           token:           Comufyrails.config.access_token,
           tag:             args.name
       }
-      response = call_api(Comufyrails.config.base_api_url, data)
+      response = call_api(Comufyrails.config.url, data)
 
       if response.message == 'OK'
         message = JSON.parse(response.read_body)

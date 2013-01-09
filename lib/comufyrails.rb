@@ -17,7 +17,7 @@ module Comufyrails
     # Expiry time of the AccessToken.
     attr_accessor :expiry_time
     # The URL of the Comufy service to connect to.
-    attr_accessor :base_api_url
+    attr_accessor :url
   end
 
   class << self
