@@ -4,12 +4,13 @@ require 'net/https'
 
 namespace :comufy do
 
-  desc "Register a tag with your application."
-  task :register_tag, [:name, :type] => :environment do |t, args|
+  desc "Register a tag with your application. The type be
+        #{Comufyrails::LEGAL_TYPES.to_sentence(two_words_connector: ' or ', last_word_connector: ', or ')},
+        if empty it defaults to STRING."
+  task :tag , [:name, :type] => :environment do |t, args|
     raise ArgumentError, "Must specify a name for the tag." unless args.name
+    args.with_defaults(type: 'STRING')
 
-    # if no type is specified, then use STRING.
-    tag = Hash[type: "STRING"].merge(args)
     if Comufyrails.config.app_name.blank?
       p "
         Cannot find the application name, is it currently set to nil or an empty string?\n
@@ -28,17 +29,17 @@ namespace :comufy do
         Please check config.comufy_rails.access_token in your environment initializer or the environment variable
         COMUFY_TOKEN are valid strings.
         "
-    elsif not Comufyrails::LEGAL_TYPES.include?(tag[:type])
+    elsif not Comufyrails::LEGAL_TYPES.include?(args.type)
       p "The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(
           two_words_connector: ' or ', last_word_connector: ', or ')}"
     else
       data = {
+          cd:              86,
           applicationName: Comufyrails.config.app_name,
           token:           Comufyrails.config.access_token,
-          cd:              86,
           tags:            [{
-                                name: tag[:name],
-                                type: tag[:type].to_sym
+                                name: args.name,
+                                type: args.type.to_sym
                             }]
       }
       response = call_api(Comufyrails.config.base_api_url, data)
@@ -66,7 +67,7 @@ namespace :comufy do
   end
 
   desc "Unregister an existing tag from your application."
-  task :unregister_tag, [:name] => :environment do |t, args|
+  task :detag , [:name] => :environment do |t, args|
     raise ArgumentError, "Must specify a name for the tag." unless args.name
 
     if Comufyrails.config.app_name.blank?
@@ -89,9 +90,9 @@ namespace :comufy do
         "
     else
       data = {
+          cd:              85,
           applicationName: Comufyrails.config.app_name,
           token:           Comufyrails.config.access_token,
-          cd:              85,
           tag:             args.name
       }
       response = call_api(Comufyrails.config.base_api_url, data)
