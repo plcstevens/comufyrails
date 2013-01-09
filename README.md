@@ -74,7 +74,16 @@ end
 
 This is non-blocking and the results are printed to the log.
 
+There are also a number of methods that are added to your rake environment, for one-time actions. These include
+the ability to add/remove tags for users of your applications.
 
+```bash
+$ bundle exec rake comufy:register_tag["Fact","STRING"]
+```
+
+This will run a blocking call to register this tag with your application, informing you if it was successful or not.
+It will use the configuration exactly as your Rails application will, so if you need to run it as production, you
+merely have to add RAILS_ENV=production or -e production.
 
 ## Contributing
 
