@@ -7,8 +7,9 @@ namespace :comufy do
   desc "Register a tag with your application."
   task :register_tag, [:name, :type] => :environment do |t, args|
     raise ArgumentError, "Must specify a name for the tag." unless args.name
-    raise ArgumentError, "Must specify a type for the tag." unless args.type
 
+    # if no type is specified, then use STRING.
+    tag = Hash[type: "STRING"].merge(args)
     if Comufyrails.config.app_name.blank?
       p "
         Cannot find the application name, is it currently set to nil or an empty string?\n
@@ -27,7 +28,7 @@ namespace :comufy do
         Please check config.comufy_rails.access_token in your environment initializer or the environment variable
         COMUFY_TOKEN are valid strings.
         "
-    elsif not Comufyrails::LEGAL_TYPES.include?(args.type)
+    elsif not Comufyrails::LEGAL_TYPES.include?(tag[:type])
       p "The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(
           two_words_connector: ' or ', last_word_connector: ', or ')}"
     else
@@ -36,8 +37,8 @@ namespace :comufy do
           token:           Comufyrails.config.access_token,
           cd:              86,
           tags:            [{
-                                name: args.name,
-                                type: args.type.to_sym
+                                name: tag[:name],
+                                type: tag[:type].to_sym
                             }]
       }
       response = call_api(Comufyrails.config.base_api_url, data)
