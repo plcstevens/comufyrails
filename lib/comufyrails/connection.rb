@@ -40,7 +40,7 @@ module Comufyrails::Connection
     def store_users(uids, tags)
       raise ArgumentError, "uids must be an Array." unless uids.is_a? Array
       raise ArgumentError, "tags must be an Array." unless tags.is_a? Array
-      
+
       zipped = uids.zip(tags)
 
       data = {
