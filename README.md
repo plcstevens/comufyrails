@@ -81,7 +81,7 @@ There are also a number of methods that are added to your rake environment, for 
 the ability to add/remove tags for users of your applications.
 
 ```bash
-$ bundle exec rake comufy:register_tag["Fact","STRING"]
+$ bundle exec rake comufy:tag["DOB", "DATE"]
 ```
 
 This will run a blocking call to register this tag with your application, informing you if it was successful or not.
