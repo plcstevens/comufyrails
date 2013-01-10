@@ -5,6 +5,10 @@ require "em-synchrony/em-http"
 module Comufyrails::Connection
   class << self
 
+    # Shortened method name for storing a user, or users in your Application.
+    # Please see +store_users+ for details.
+    def store(uids, tags) self.store_user(uids, tags) end
+
     # This API call allows you to register a Facebook user of your application into Comufy’s social CRM.
     # If this user was already registered with Comufy, their information will be updated.
     #
@@ -16,8 +20,10 @@ module Comufyrails::Connection
     # = Example
     #
     #   Comufyrails::Connection.store_user USER_FACEBOOK_ID, { dob: '1978-10-01 19:50:48' }
-    def store_user(uid, tags)
-      self.store_users([uid], [tags])
+    def store_user(uids, tags)
+      uids = [uids] unless uids.is_a? Array
+      tags = [tags] unless tags.is_a? Array
+      self.store_users(uids, tags)
     end
 
     # This API call allows you to register multiple Facebook users of your application into Comufy’s social CRM.
@@ -37,6 +43,7 @@ module Comufyrails::Connection
     #     [ USER_ID, USER_ID_2 ],
     #     [ { 'dob' => '1978-10-01 19:50:48' }, { 'dob' => '1978-10-01 19:50:48'}]
     #   )
+    # TODO: Should we check tags and throw exceptions if the types are invalid or it contains additional values?
     def store_users(uids, tags)
       raise ArgumentError, "uids must be an Array." unless uids.is_a? Array
       raise ArgumentError, "tags must be an Array." unless tags.is_a? Array
@@ -71,6 +78,9 @@ module Comufyrails::Connection
         end
       end
     end
+
+    # Shorthand method for sending messages to the selected uids. See +send_facebook_message+ for more information.
+    def message(desc, content, uids, opts = {}) self.send_facebook_message(desc, content, uids, opts) end
 
     # Sends a message with the description and content to the facebook id or id's specified, allowing multiple
     # options to be set concerning the privacy, and content of the message.
