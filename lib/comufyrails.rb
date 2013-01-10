@@ -1,10 +1,10 @@
 require 'rails'
 
 require "comufyrails/core_ext"
-require "comufyrails/connection"
-require "comufyrails/constants"
-require 'comufyrails/railtie' if defined?(Rails)
 require "comufyrails/version"
+require "comufyrails/constants"
+require "comufyrails/connection"
+require 'comufyrails/railtie' if defined?(Rails)
 
 module Comufyrails
 
