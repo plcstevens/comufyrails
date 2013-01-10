@@ -1,6 +1,5 @@
 require 'json'
 require 'net/http'
-require 'net/https'
 
 namespace :comufy do
 
@@ -44,10 +43,9 @@ namespace :comufy do
       }
 
       uri = URI.parse(Comufyrails.config.url)
-      http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Post.new(uri.path, initheader = { 'Content-Type' => 'application/json' })
       request.set_form_data({ request: data.to_json })
-      response = http.request(request)
+      response = Net::HTTP.new(uri.host, uri.port).start { |http| http.request(req) }
 
       if response.message == 'OK'
         message = JSON.parse(response.read_body)
@@ -102,10 +100,9 @@ namespace :comufy do
       }
 
       uri = URI.parse(Comufyrails.config.url)
-      http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Post.new(uri.path, initheader = { 'Content-Type' => 'application/json' })
       request.set_form_data({ request: data.to_json })
-      response = http.request(request)
+      response = Net::HTTP.new(uri.host, uri.port).start { |http| http.request(req) }
 
       if response.message == 'OK'
         message = JSON.parse(response.read_body)
