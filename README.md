@@ -75,7 +75,27 @@ class UserObserver < ActiveRecord::Observer
 end
 ```
 
-This is non-blocking and the results are printed to the log.
+Or you can place the code in your controllers. As this method is asynchronous it will not block and affect
+performance. It should be noted that these methods return their results to the logs.
+
+```ruby
+  # POST /users
+  # POST /users.json
+  def create
+    @user = User.new(params[:user])
+
+    respond_to do |format|
+      if @user.save
+        Comufyrails::Connection.store_user(user.facebook_id, { dob: user.dob.to_comufy_time, fact: user.fact })
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.json { render json: @user, status: :created, location: @user }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+```
 
 There are also a number of methods that are added to your rake environment, for one-time actions. These include
 the ability to add/remove tags for users of your applications.
