@@ -1,8 +1,20 @@
 require "em-synchrony"
 require "em-synchrony/em-http"
 
-# TODO: Documentation
+# This module contains asynchronous methods for contacting the +comufy.url+ specified in +Config+.
+# It uses +em-synchrony+ and +EventMachine+ to achieve this, and therefore to be run asynchronously you
+# must use a web server that supports these such as +thin+.
+#
+# Methods to store users or send messages all return their results to logs, as they do not provide any information
+# back to the user.
+#
+# Requests for users and tags can return information and will yield to a block if provided, otherwise they will
+# also print to the log. This is often useful for debugging, but in practise you should provide these with a block.
 module Comufyrails::Connection
+
+  class IllegalKeyTypeError < StandardError; end
+  class IllegalValueTypeError < StandardError; end
+
   class << self
 
     # Shortened method name for storing a user, or users in your Application.
@@ -47,7 +59,21 @@ module Comufyrails::Connection
       raise ArgumentError, "uids must be an Array." unless uids.is_a? Array
       raise ArgumentError, "tags must be an Array." unless tags.is_a? Array
 
-      # TODO: Should we check tags and throw exceptions if the types are invalid or it contains additional values?
+      # Ensure the tags are valid
+      tags.each do |hash|
+        hash.symbolize_keys!
+        hash.each do |key, value|
+          if Comufyrails::LEGAL_TAGS.include?(key)
+            if key == Comufyrails::TYPE_TAG and not Comufyrails::LEGAL_TYPES.include?(value)
+              raise IllegalValueTypeError, "The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(
+                  last_word_connector: ', or ')}. You have tried to enter #{value}."
+            end
+          else
+            raise IllegalKeyTypeError, "The only two valid keys are #{Comufyrails::LEGAL_TAGS.to_sentence}.
+                  You have tried to enter #{key}."
+          end
+        end
+      end
 
       zipped = uids.zip(tags)
 
@@ -218,13 +244,14 @@ module Comufyrails::Connection
     # If you provide a block it will yield the response, otherwise it will be sent the log.
     # TODO: Replace USER.USER_STATE with something we know will get all users.
     def get_users filter = ""
+      filter = 'USER.USER_STATE="Unknown"' if filter.empty?
       data = {
           cd:               82,
           token:            Comufyrails.config.access_token,
           applicationName:  Comufyrails.config.app_name,
           since:            1314835200000,
           fetchMode:        "ALL",
-          filter:           "USER.USER_STATE=\"Unknown\" #{filter}"
+          filter:           filter
       }
 
       EM.synchrony do

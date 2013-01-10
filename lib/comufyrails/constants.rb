@@ -11,4 +11,11 @@ module Comufyrails
   FLOAT_TYPE  = "FLOAT"
   # Data types must be one of these formats
   LEGAL_TYPES = [STRING_TYPE, DATE_TYPE, GENDER_TYPE, INT_TYPE, FLOAT_TYPE]
+
+  # Name tags
+  NAME_TAG    = :name
+  # Type tags
+  TYPE_TAG    = :type
+  # Allowed tag keys
+  LEGAL_TAGS  = [NAME_TAG, TYPE_TAG]
 end
