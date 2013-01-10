@@ -1,5 +1,6 @@
 require "em-synchrony"
 require "em-synchrony/em-http"
+require "comufyrails"
 
 # This module contains asynchronous methods for contacting the +comufy.url+ specified in +Config+.
 # It uses +em-synchrony+ and +EventMachine+ to achieve this, and therefore to be run asynchronously you
