@@ -43,10 +43,11 @@ module Comufyrails::Connection
     #     [ USER_ID, USER_ID_2 ],
     #     [ { 'dob' => '1978-10-01 19:50:48' }, { 'dob' => '1978-10-01 19:50:48'}]
     #   )
-    # TODO: Should we check tags and throw exceptions if the types are invalid or it contains additional values?
     def store_users(uids, tags)
       raise ArgumentError, "uids must be an Array." unless uids.is_a? Array
       raise ArgumentError, "tags must be an Array." unless tags.is_a? Array
+
+      # TODO: Should we check tags and throw exceptions if the types are invalid or it contains additional values?
 
       zipped = uids.zip(tags)
 
@@ -177,8 +178,11 @@ module Comufyrails::Connection
       end
     end
 
-    # Provides a list of all tags for this application.
-    # If you provide a block it will yield the response, otherwise it will be sent the log.
+    # Shorthand method name for +get_tags+. See +get_tags+ for details.
+    def tags; self.get_tags end
+
+    # Provides a list of all tags for this application. If you provide a block it will yield the response,
+    # otherwise it will be sent the log.
     def get_tags
       data = {
           cd:               101,
@@ -206,6 +210,9 @@ module Comufyrails::Connection
         end
       end
     end
+
+    # Shorthand method name for +get_users+. See +get_users+ for details.
+    def users; self.get_users end
 
     # Lists all current users data, with any additional filters you want.
     # If you provide a block it will yield the response, otherwise it will be sent the log.
