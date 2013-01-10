@@ -204,12 +204,9 @@ module Comufyrails::Connection
       end
     end
 
-    # Shorthand method name for +get_tags+. See +get_tags+ for details.
-    def tags; self.get_tags end
-
     # Provides a list of all tags for this application. If you provide a block it will yield the response,
     # otherwise it will be sent the log.
-    def get_tags
+    def tags
       data = {
           cd:               101,
           token:            Comufyrails.config.access_token,
@@ -237,13 +234,10 @@ module Comufyrails::Connection
       end
     end
 
-    # Shorthand method name for +get_users+. See +get_users+ for details.
-    def users; self.get_users end
-
     # Lists all current users data, with any additional filters you want.
     # If you provide a block it will yield the response, otherwise it will be sent the log.
     # TODO: Replace USER.USER_STATE with something we know will get all users.
-    def get_users filter = ""
+    def users filter = ""
       filter = 'USER.USER_STATE="Unknown"' if filter.empty?
       data = {
           cd:               82,
