@@ -17,11 +17,11 @@ namespace :comufy do
         Please check config.comufy_rails.app_name in your environment initializer or the environment variable
         COMUFY_APP_NAME are valid strings.
         "
-    elsif Comufyrails.config.base_api_url.blank?
+    elsif Comufyrails.config.url.blank?
       p "
         Cannot find the base api url, is it currently set to nil or an empty string?\n
-        Please check config.comufy_rails.base_api_url in your environment initializer or the environment variable
-        COMUFY_BASE_API_URL are valid strings.
+        Please check config.comufy_rails.url in your environment initializer or the environment variable
+        COMUFY_URL are valid strings.
         "
     elsif Comufyrails.config.access_token.blank?
       p "
@@ -76,11 +76,11 @@ namespace :comufy do
         Please check config.comufy_rails.app_name in your environment initializer or the environment variable
         COMUFY_APP_NAME are valid strings.
         "
-    elsif Comufyrails.config.base_api_url.blank?
+    elsif Comufyrails.config.url.blank?
       p "
         Cannot find the base api url, is it currently set to nil or an empty string?\n
-        Please check config.comufy_rails.base_api_url in your environment initializer or the environment variable
-        COMUFY_BASE_API_URL are valid strings.
+        Please check config.comufy_rails.url in your environment initializer or the environment variable
+        COMUFY_URL are valid strings.
         "
     elsif Comufyrails.config.access_token.blank?
       p "
