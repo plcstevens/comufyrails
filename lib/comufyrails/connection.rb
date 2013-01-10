@@ -60,21 +60,7 @@ module Comufyrails::Connection
       raise ArgumentError, "tags must be an Array." unless tags.is_a? Array
 
       # Ensure the tags are valid
-      tags.each do |hash|
-        hash.symbolize_keys!
-        hash.each do |key, value|
-          if Comufyrails::LEGAL_TAGS.include?(key)
-            if key == Comufyrails::TYPE_TAG and not Comufyrails::LEGAL_TYPES.include?(value)
-              raise IllegalValueTypeError, "The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(
-                  last_word_connector: ', or ')}. You have tried to enter #{value}."
-            end
-          else
-            raise IllegalKeyTypeError, "The only two valid keys are #{Comufyrails::LEGAL_TAGS.to_sentence}.
-                  You have tried to enter #{key}."
-          end
-        end
-      end
-
+      tags.each(&:symbolize_keys!)
       zipped = uids.zip(tags)
 
       data = {
