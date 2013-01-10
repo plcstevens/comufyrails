@@ -1,4 +1,4 @@
 module Comufyrails
   # Current version of this gem.
-  VERSION = "0.1.2g"
+  VERSION = "0.1.2h"
 end

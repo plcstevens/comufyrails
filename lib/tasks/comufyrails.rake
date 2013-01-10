@@ -44,7 +44,7 @@ namespace :comufy do
                             }]
       }
 
-      uri = URI.parse(@config::base_api_url)
+      uri = URI.parse(Comufyrails.config.url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       request = Net::HTTP::Post.new(uri.path, initheader = { 'Content-Type' => 'application/json' })
@@ -103,7 +103,7 @@ namespace :comufy do
           tag:             args.name
       }
 
-      uri = URI.parse(@config::base_api_url)
+      uri = URI.parse(Comufyrails.config.url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       request = Net::HTTP::Post.new(uri.path, initheader = { 'Content-Type' => 'application/json' })
