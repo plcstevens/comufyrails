@@ -42,7 +42,12 @@ namespace :comufy do
                                 type: args.type.to_sym
                             }]
       }
-      response = call_api(Comufyrails.config.url, data)
+
+      uri = URI.parse(Comufyrails.config.url)
+      http = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Post.new(uri.path, initheader = { 'Content-Type' => 'application/json' })
+      request.set_form_data({ request: data.to_json })
+      response = http.request(request)
 
       if response.message == 'OK'
         message = JSON.parse(response.read_body)
@@ -95,7 +100,12 @@ namespace :comufy do
           token:           Comufyrails.config.access_token,
           tag:             args.name
       }
-      response = call_api(Comufyrails.config.url, data)
+
+      uri = URI.parse(Comufyrails.config.url)
+      http = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Post.new(uri.path, initheader = { 'Content-Type' => 'application/json' })
+      request.set_form_data({ request: data.to_json })
+      response = http.request(request)
 
       if response.message == 'OK'
         message = JSON.parse(response.read_body)
@@ -113,19 +123,10 @@ namespace :comufy do
           else
             p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
         end
+      else
+        p "Authentication failed when sending #{data}. Please get in touch with Comufy if you cannot resolve this."
       end
     end
-  end
-
-  private
-
-  # posts the form to the given url as json and blocks till a response is given.
-  def call_api(url, data)
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.path, initheader = { 'Content-Type' => 'application/json' })
-    request.set_form_data({ request: data.to_json })
-    return http.request(request)
   end
 
 end
