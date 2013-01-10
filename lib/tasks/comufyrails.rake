@@ -125,7 +125,7 @@ namespace :comufy do
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.path, initheader = { 'Content-Type' => 'application/json' })
     request.set_form_data({ request: data.to_json })
-    http.request(request)
+    return http.request(request)
   end
 
 end
