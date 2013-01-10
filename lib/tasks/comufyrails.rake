@@ -1,5 +1,7 @@
 require 'json'
 require 'net/http'
+require 'net/https'
+require 'uri'
 
 namespace :comufy do
 
