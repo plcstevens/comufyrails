@@ -45,9 +45,9 @@ can get these values by using this heroku command below and looking for all valu
 
 If you do not already have a Comufy application setup you need to before you can start to use this gem.
 
-First you should register, or get the details, of your Facebook application, including the Facebook ID and Facebook
-secret of the application. You then pass these into the rake method comufy:app along with a description of your
-application, and this will on success create the application name for you on Comufy.
+First you should register your Facebook application and get the Facebook ID and Facebook
+secret of the application. You will use these in the rake method below to register the application with Comufy.
+On success of this you can write the name of your application in the manners shown further below.
 
 ```bash
 rake comufy:app["MY_APPLICATION_NAME","APP_ID","APP_SECRET","Description of my application"]
