@@ -71,7 +71,6 @@ module Comufyrails
             applicationName: Comufyrails.config.app_name,
             accounts:        zipped.map { |uid, tagged | Hash[:account, { fbId: uid.to_s }, :tags, tagged] }
         }
-
         EM.synchrony do
           http = EventMachine::HttpRequest.new(Comufyrails.config.url).post(
               :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
@@ -243,7 +242,11 @@ module Comufyrails
           if http.response_header.status == 200
             message = JSON.parse(http.response)
             if block_given?
-              yield message
+              total = message["timeBlocks"][0]["total"]
+              users = message["timeBlocks"][0]["data"]
+              to    = message["timeBlocks"][0]["to"]
+              from  = message["timeBlocks"][0]["from"]
+              yield users, total, to, from
             else
               case message["cd"]
                 when 382 then
