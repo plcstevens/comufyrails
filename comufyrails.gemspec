@@ -17,10 +17,10 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency('activesupport')
-  gem.add_dependency('em-synchrony')
-  gem.add_dependency('em-http-request')
+  gem.add_dependency('activesupport',   '~> 3.2.11')
+  gem.add_dependency('em-synchrony',    '~> 1.0.2')
+  gem.add_dependency('em-http-request', '~> 1.0.3')
 
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency('rake',  '~> 10.0.3')
+  gem.add_development_dependency('rspec', '~> 2.12.0')
 end
