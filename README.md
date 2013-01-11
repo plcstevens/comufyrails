@@ -41,6 +41,18 @@ can get these values by using this heroku command below and looking for all valu
 
     heroku config
 
+### Application Name
+
+If you do not already have a Comufy application setup you need to before you can start to use this gem.
+
+First you should register, or get the details, of your Facebook application, including the Facebook ID and Facebook
+secret of the application. You then pass these into the rake method comufy:app along with a description of your
+application, and this will on success create the application name for you on Comufy.
+
+```bash
+rake comufy:app["MY_APPLICATION_NAME","APP_ID","APP_SECRET","Description of my application"]
+```
+
 You can set the values in your config/environments/*.rb in the same manner you set rails-specific values.
 
 ```ruby

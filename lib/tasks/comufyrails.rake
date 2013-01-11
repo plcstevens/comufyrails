@@ -132,4 +132,60 @@ namespace :comufy do
     end
   end
 
+  desc "Register an application with Comufy"
+  task :app , [:name, :id, :secret, :description] => :environment do |t, args|
+    raise ArgumentError, "Must specify a name for the application."                     unless args.name
+    raise ArgumentError, "Must specify a facebook application id for the application."  unless args.id
+    raise ArgumentError, "Must specify a facebook secret for the application."          unless args.secret
+    raise ArgumentError, "Must specify a description for the application."              unless args.description
+
+    if Comufyrails.config.url.blank?
+      p "
+        Cannot find the base api url, is it currently set to nil or an empty string?\n
+        Please check config.comufy_rails.url in your environment initializer or the environment variable
+        COMUFY_URL are valid strings.
+        "
+    elsif Comufyrails.config.access_token.blank?
+      p "
+        Cannot find the access token, is it currently set to nil or an empty string?\n
+        Please check config.comufy_rails.access_token in your environment initializer or the environment variable
+        COMUFY_TOKEN are valid strings.
+        "
+    else
+      data = {
+        cd:                 106,
+        token:              Comufyrails.config.access_token,
+        name:               args.name,
+        description:        args.description,
+        applicationId:      args.id,
+        applicationSecret:  args.secret
+      }
+
+      uri = URI.parse(Comufyrails.config.url)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      request = Net::HTTP::Post.new(uri.path, initheader = { 'Content-Type' => 'application/json' })
+      request.set_form_data({ request: data.to_json })
+      response = http.request(request)
+
+      if response.message == 'OK'
+        message = JSON.parse(response.read_body)
+        case message['cd']
+          when 205 then
+            p "205 - Success! - data = #{data} - message = #{message}."
+          when 602 then
+            p "602 - _ERROR_DOMAIN_APPLICATION_NAME_ALREADY_REGISTERED - data = #{data} - message = #{message}."
+          when 619 then
+            p "619 - _ERROR_DOMAIN_APPLICATION_ALREADY_REGISTERED_UNDER_DIFFERENT_NAME  - data = #{data} - message = #{message}."
+          when 645 then
+            p "645 - _ERROR_FACEBOOK_AUTHORISATION_FAILURE - data = #{data} - message = #{message}."
+          else
+            p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+        end
+      else
+        p "Authentication failed when sending #{data}. Please get in touch with Comufy if you cannot resolve this."
+      end
+    end
+  end
+
 end
