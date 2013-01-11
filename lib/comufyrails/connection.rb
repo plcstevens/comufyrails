@@ -71,6 +71,7 @@ module Comufyrails
             applicationName: Comufyrails.config.app_name,
             accounts:        zipped.map { |uid, tagged | Hash[:account, { fbId: uid.to_s }, :tags, tagged] }
         }
+
         EM.synchrony do
           http = EventMachine::HttpRequest.new(Comufyrails.config.url).post(
               :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
