@@ -5,34 +5,30 @@ require 'uri'
 
 namespace :comufy do
 
-  desc "Register a tag with your application. The type be
-        #{Comufyrails::LEGAL_TYPES.to_sentence(two_words_connector: ' or ', last_word_connector: ', or ')},
-        if empty it defaults to STRING."
+  desc "Register a tag with your application."
   task :tag , [:name, :type] => :environment do |t, args|
     raise ArgumentError, "Must specify a name for the tag." unless args.name
     args.with_defaults(type: 'STRING')
 
     if Comufyrails.config.app_name.blank?
       p "
-        Cannot find the application name, is it currently set to nil or an empty string?\n
-        Please check config.comufy_rails.app_name in your environment initializer or the environment variable
-        COMUFY_APP_NAME are valid strings.
-        "
+Cannot find the application name, is it currently set to nil or an empty string? Please check
+config.comufy_rails.app_name in your environment initializer or the environment variable
+COMUFY_APP_NAME are valid strings. And remember you need to register your application with Comufy first with
+the comufy:app rake command."
     elsif Comufyrails.config.url.blank?
       p "
-        Cannot find the base api url, is it currently set to nil or an empty string?\n
-        Please check config.comufy_rails.url in your environment initializer or the environment variable
-        COMUFY_URL are valid strings.
-        "
+Cannot find the base api url, is it currently set to nil or an empty string?\n
+Please check config.comufy_rails.url in your environment initializer or the environment variable
+COMUFY_URL are valid strings."
     elsif Comufyrails.config.access_token.blank?
       p "
-        Cannot find the access token, is it currently set to nil or an empty string?\n
-        Please check config.comufy_rails.access_token in your environment initializer or the environment variable
-        COMUFY_TOKEN are valid strings.
-        "
+Cannot find the access token, is it currently set to nil or an empty string?\n
+Please check config.comufy_rails.access_token in your environment initializer or the environment variable
+COMUFY_TOKEN are valid strings."
     elsif not Comufyrails::LEGAL_TYPES.include?(args.type)
-      p "The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(
-          two_words_connector: ' or ', last_word_connector: ', or ')}"
+      p "
+The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(two_words_connector: ' or ', last_word_connector: ', or ')}"
     else
       data = {
           cd:              86,
@@ -78,23 +74,21 @@ namespace :comufy do
     raise ArgumentError, "Must specify a name for the tag." unless args.name
 
     if Comufyrails.config.app_name.blank?
-      p "
-        Cannot find the application name, is it currently set to nil or an empty string?\n
-        Please check config.comufy_rails.app_name in your environment initializer or the environment variable
-        COMUFY_APP_NAME are valid strings.
-        "
+      puts "
+Cannot find the application name, is it currently set to nil or an empty string? Please check
+config.comufy_rails.app_name in your environment initializer or the environment variable
+COMUFY_APP_NAME are valid strings. And remember you need to register your application with Comufy first with
+the comufy:app rake command."
     elsif Comufyrails.config.url.blank?
       p "
-        Cannot find the base api url, is it currently set to nil or an empty string?\n
-        Please check config.comufy_rails.url in your environment initializer or the environment variable
-        COMUFY_URL are valid strings.
-        "
+Cannot find the base api url, is it currently set to nil or an empty string?
+Please check config.comufy_rails.url in your environment initializer or the environment variable
+COMUFY_URL are valid strings."
     elsif Comufyrails.config.access_token.blank?
       p "
-        Cannot find the access token, is it currently set to nil or an empty string?\n
-        Please check config.comufy_rails.access_token in your environment initializer or the environment variable
-        COMUFY_TOKEN are valid strings.
-        "
+Cannot find the access token, is it currently set to nil or an empty string?
+Please check config.comufy_rails.access_token in your environment initializer or the environment variable
+COMUFY_TOKEN are valid strings."
     else
       data = {
           cd:              85,
@@ -141,16 +135,14 @@ namespace :comufy do
 
     if Comufyrails.config.url.blank?
       p "
-        Cannot find the base api url, is it currently set to nil or an empty string?\n
-        Please check config.comufy_rails.url in your environment initializer or the environment variable
-        COMUFY_URL are valid strings.
-        "
+Cannot find the base api url, is it currently set to nil or an empty string?\n
+Please check config.comufy_rails.url in your environment initializer or the environment variable
+COMUFY_URL are valid strings."
     elsif Comufyrails.config.access_token.blank?
       p "
-        Cannot find the access token, is it currently set to nil or an empty string?\n
-        Please check config.comufy_rails.access_token in your environment initializer or the environment variable
-        COMUFY_TOKEN are valid strings.
-        "
+Cannot find the access token, is it currently set to nil or an empty string?\n
+Please check config.comufy_rails.access_token in your environment initializer or the environment variable
+COMUFY_TOKEN are valid strings."
     else
       data = {
         cd:                 106,
