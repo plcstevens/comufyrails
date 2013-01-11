@@ -222,6 +222,16 @@ module Comufyrails
         end
       end
 
+      def user(facebook_id)
+        filter = "FACEBOOK.ID=\"#{facebook_id}\""
+        self.users(filter)  do |users, total, to, from|
+          user    = users.first
+          account = user.delete("account")
+          tags    = user.delete("tagValues")
+          yield account, tags, [users, total, to, from]
+        end
+      end
+
       # Lists all current users data, with any additional filters you want.
       # If you provide a block it will yield the response, otherwise it will be sent the log.
       # TODO: Replace USER.USER_STATE with something we know will get all users.
