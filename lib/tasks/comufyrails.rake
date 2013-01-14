@@ -10,6 +10,10 @@ namespace :comufy do
     raise ArgumentError, "Must specify a name for the tag." unless args.name
     args.with_defaults(type: 'STRING')
 
+    if Rails.env.development?
+      Comufyrails.logger = Logger.new(STDOUT)
+    end
+
     if Comufyrails.config.app_name.blank?
       Comufyrails.logger.info("Cannot find the application name, is it currently set to nil or an empty string? Please check
                   config.comufy_rails.app_name in your environment initializer or the environment variable
@@ -70,6 +74,10 @@ namespace :comufy do
   task :detag , [:name] => :environment do |t, args|
     raise ArgumentError, "Must specify a name for the tag." unless args.name
 
+    if Rails.env.development?
+      Comufyrails.logger = Logger.new(STDOUT)
+    end
+
     if Comufyrails.config.app_name.blank?
       Comufyrails.logger.info("Cannot find the application name, is it currently set to nil or an empty string? Please check
                   config.comufy_rails.app_name in your environment initializer or the environment variable
@@ -127,6 +135,10 @@ namespace :comufy do
     raise ArgumentError, "Must specify a facebook application id for the application."  unless args.id
     raise ArgumentError, "Must specify a facebook secret for the application."          unless args.secret
     raise ArgumentError, "Must specify a description for the application."              unless args.description
+
+    if Rails.env.development?
+      Comufyrails.logger = Logger.new(STDOUT)
+    end
 
     if Comufyrails.config.url.blank?
       Comufyrails.logger.info("Cannot find the base api url, is it currently set to nil or an empty string?
