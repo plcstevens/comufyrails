@@ -85,7 +85,7 @@ module Comufyrails
                 Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
             end
           else
-            Comufyrails.logger.debug("Server responded with #{http.response_header}.")
+            Comufyrails.logger.warn("Server responded with #{http.response_header}.")
           end
         end
       end
@@ -183,7 +183,7 @@ module Comufyrails
                 Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
             end
           else
-            Comufyrails.logger.debug("Server responded with #{http.response_header}.")
+            Comufyrails.logger.warn("Server responded with #{http.response_header}.")
           end
         end
       end
@@ -207,13 +207,13 @@ module Comufyrails
             else
               case message["cd"]
                 when 219 then
-                  Connection.logger.debug("219 - Success! - data = #{data} - message = #{message}.")
+                  Comufyrails.logger.debug("219 - Success! - data = #{data} - message = #{message}.")
                 else
-                  Connection.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
+                  Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
               end
             end
           else
-            Connection.logger.debug("Server responded with #{http.response_header}.")
+            Comufyrails.logger.warn("Server responded with #{http.response_header}.")
           end
         end
       end
@@ -246,25 +246,28 @@ module Comufyrails
           http = EventMachine::HttpRequest.new(Comufyrails.config.url).post(
               :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
           if http.response_header.status == 200
-            message = JSON.parse(http.response)
+            message = JSON.parse(http.response).stringify_keys
+            total   = message["timeBlocks"].first["total"]
+            users   = message["timeBlocks"].first["data"]
+            to      = message["timeBlocks"].first["to"]
+            from    = message["timeBlocks"].first["from"]
             if block_given?
-              total = message["timeBlocks"][0]["total"]
-              users = message["timeBlocks"][0]["data"]
-              to    = message["timeBlocks"][0]["to"]
-              from  = message["timeBlocks"][0]["from"]
               yield users, total, to, from
             else
               case message["cd"]
                 when 382 then
                   Comufyrails.logger.debug("382 - Success! - data = #{data} - message = #{message}.")
+                  Comufyrails.logger.info("#{total} user(s) were found matching your filter.\n #{users}")
                 when 692 then
                   Comufyrails.logger.debug("692 - Invalid filter/filter not found - data = #{data} - message = #{message}.")
+                  Comufyrails.logger.info("Invalid filter/filter not found.\n #{users}")
                 else
                   Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
+                  Comufyrails.logger.info("Unknown response from server.\n #{users}")
               end
             end
           else
-            Comufyrails.logger.debug("Server responded with #{http.response_header}.")
+            Comufyrails.logger.warn("Server responded with #{http.response_header}, rather than the expected 200.")
           end
         end
       end
