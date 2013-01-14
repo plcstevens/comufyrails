@@ -221,10 +221,11 @@ module Comufyrails
       def user(facebook_id)
         filter = "FACEBOOK.ID=\"#{facebook_id}\""
         self.users(filter)  do |users, total, to, from|
-          user    = users.first
-          account = user.delete("account")
-          tags    = user.delete("tagValues")
-          yield account, tags, [users, total, to, from]
+          user    = users.delete_at(0)
+          account = user ? user.delete("account")   : { }
+          tags    = user ? user.delete("tagValues") : { }
+          other   = { users: users, total: total, to: to, from: from }.with_indifferent_access
+          yield account, tags, other
         end
       end
 
@@ -246,11 +247,13 @@ module Comufyrails
           http = EventMachine::HttpRequest.new(Comufyrails.config.url).post(
               :body => { request: data.to_json }, :initheader => { 'Content-Type' => 'application/json' })
           if http.response_header.status == 200
-            message = JSON.parse(http.response).stringify_keys
-            total   = message["timeBlocks"].first["total"]
-            users   = message["timeBlocks"].first["data"]
-            to      = message["timeBlocks"].first["to"]
-            from    = message["timeBlocks"].first["from"]
+            message = JSON.parse(http.response).with_indifferent_access
+            blocks  = message.clone.delete("timeBlocks")
+            total = blocks.first ? blocks.first.delete("total")               : 0
+            to    = blocks.first ? blocks.first.delete("to")                  : 0
+            from  = blocks.first ? blocks.first.delete("from")                : 0
+            users = blocks.first && total > 0 ? blocks.first.delete("data")   : [ ]
+
             if block_given?
               yield users, total, to, from
             else
