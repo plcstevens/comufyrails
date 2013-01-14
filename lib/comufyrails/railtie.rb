@@ -1,16 +1,17 @@
 require 'rails'
 require 'comufyrails'
 
+# :nodoc:
 class Comufyrails::Railtie < Rails::Railtie
 
-  # this allows users to manage settings just like they manage rails settings
-  config.comufy_rails = ActiveSupport::OrderedOptions.new # enable namespaced configuration in Rails environment
+  # enable namespaced configuration in Rails environment
+  config.comufy_rails = ActiveSupport::OrderedOptions.new
 
-  # initialize our logger
   initializer 'Rails logger' do
     Comufyrails.logger = Rails.logger
   end
 
+  # configure the key settings that Comufyrails requires to functions
   initializer "comufyrails.configure" do |app|
     Comufyrails.configure do |c|
       c.app_name     = app.config.comufy_rails[:app_name]     || ENV.fetch('COMUFY_APP_NAME', ::Rails.application.class.to_s.split("::").first)

@@ -11,24 +11,20 @@ namespace :comufy do
     args.with_defaults(type: 'STRING')
 
     if Comufyrails.config.app_name.blank?
-      p "
-Cannot find the application name, is it currently set to nil or an empty string? Please check
-config.comufy_rails.app_name in your environment initializer or the environment variable
-COMUFY_APP_NAME are valid strings. And remember you need to register your application with Comufy first with
-the comufy:app rake command."
+      Comufyrails.logger.info("Cannot find the application name, is it currently set to nil or an empty string? Please check
+                  config.comufy_rails.app_name in your environment initializer or the environment variable
+                  COMUFY_APP_NAME are valid strings. And remember you need to register your application with Comufy
+                  first with the comufy:app rake command.")
     elsif Comufyrails.config.url.blank?
-      p "
-Cannot find the base api url, is it currently set to nil or an empty string?\n
-Please check config.comufy_rails.url in your environment initializer or the environment variable
-COMUFY_URL are valid strings."
+      Comufyrails.logger.info("Cannot find the base api url, is it currently set to nil or an empty string?\n
+                  Please check config.comufy_rails.url in your environment initializer or the environment variable
+                  COMUFY_URL are valid strings.")
     elsif Comufyrails.config.access_token.blank?
-      p "
-Cannot find the access token, is it currently set to nil or an empty string?\n
-Please check config.comufy_rails.access_token in your environment initializer or the environment variable
-COMUFY_TOKEN are valid strings."
+      Comufyrails.logger.info("Cannot find the access token, is it currently set to nil or an empty string?\n
+                  Please check config.comufy_rails.access_token in your environment initializer or the environment
+                  variable COMUFY_TOKEN are valid strings.")
     elsif not Comufyrails::LEGAL_TYPES.include?(args.type)
-      p "
-The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(two_words_connector: ' or ', last_word_connector: ', or ')}"
+      Comufyrails.logger.info("The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(last_word_connector: ', or ')}")
     else
       data = {
           cd:              86,
@@ -51,20 +47,21 @@ The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(two_words_connector: ' o
         message = JSON.parse(response.read_body)
         case message["cd"]
           when 386 then
-            p "386 - Success! - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("386 - Success! - data = #{data} - message = #{message}.")
           when 475 then
-            p "475 - Invalid parameters provided - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("475 - Invalid parameters provided - data = #{data} - message = #{message}.")
           when 603 then
-            p "603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}.")
           when 607 then
-            p "607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}.")
           when 618 then
-            p "618 - _ERROR_DOMAIN_APPLICATION_TAG_ALREADY_REGISTERED - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("618 - _ERROR_DOMAIN_APPLICATION_TAG_ALREADY_REGISTERED - data = #{data} - message = #{message}.")
           else
-            p  "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
         end
       else
-        p "Authentication failed when sending #{data}. Please get in touch with Comufy if you cannot resolve this."
+        Comufyrails.logger.debug("Rake task comufy:tag failed when sending #{data}.")
+        Comufyrails.logger.warn("Authentication failed. Please get in touch with Comufy if you cannot resolve this.")
       end
     end
   end
@@ -74,21 +71,18 @@ The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(two_words_connector: ' o
     raise ArgumentError, "Must specify a name for the tag." unless args.name
 
     if Comufyrails.config.app_name.blank?
-      puts "
-Cannot find the application name, is it currently set to nil or an empty string? Please check
-config.comufy_rails.app_name in your environment initializer or the environment variable
-COMUFY_APP_NAME are valid strings. And remember you need to register your application with Comufy first with
-the comufy:app rake command."
+      Comufyrails.logger.info("Cannot find the application name, is it currently set to nil or an empty string? Please check
+                  config.comufy_rails.app_name in your environment initializer or the environment variable
+                  COMUFY_APP_NAME are valid strings. And remember you need to register your application with Comufy
+                  first with the comufy:app rake command.")
     elsif Comufyrails.config.url.blank?
-      p "
-Cannot find the base api url, is it currently set to nil or an empty string?
-Please check config.comufy_rails.url in your environment initializer or the environment variable
-COMUFY_URL are valid strings."
+      Comufyrails.logger.info("Cannot find the base api url, is it currently set to nil or an empty string?\n
+                  Please check config.comufy_rails.url in your environment initializer or the environment variable
+                  COMUFY_URL are valid strings.")
     elsif Comufyrails.config.access_token.blank?
-      p "
-Cannot find the access token, is it currently set to nil or an empty string?
-Please check config.comufy_rails.access_token in your environment initializer or the environment variable
-COMUFY_TOKEN are valid strings."
+      Comufyrails.logger.info("Cannot find the access token, is it currently set to nil or an empty string?\n
+                  Please check config.comufy_rails.access_token in your environment initializer or the environment
+                  variable COMUFY_TOKEN are valid strings.")
     else
       data = {
           cd:              85,
@@ -108,20 +102,21 @@ COMUFY_TOKEN are valid strings."
         message = JSON.parse(response.read_body)
         case message['cd']
           when 385 then
-            p "385 - Success! - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("385 - Success! - data = #{data} - message = #{message}.")
           when 475 then
-            p "475 - Invalid parameters provided - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("475 - Invalid parameters provided - data = #{data} - message = #{message}.")
           when 603 then
-            p "603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}.")
           when 607 then
-            p "607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}.")
           when 617 then
-            p "617 - _ERROR_DOMAIN_APPLICATION_TAG_NOT_FOUND - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("617 - _ERROR_DOMAIN_APPLICATION_TAG_NOT_FOUND - data = #{data} - message = #{message}.")
           else
-            p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
         end
       else
-        p "Authentication failed when sending #{data}. Please get in touch with Comufy if you cannot resolve this."
+        Comufyrails.logger.debug("Rake task comufy:tag failed when sending #{data}.")
+        Comufyrails.logger.warn("Authentication failed. Please get in touch with Comufy if you cannot resolve this.")
       end
     end
   end
@@ -134,15 +129,13 @@ COMUFY_TOKEN are valid strings."
     raise ArgumentError, "Must specify a description for the application."              unless args.description
 
     if Comufyrails.config.url.blank?
-      p "
-Cannot find the base api url, is it currently set to nil or an empty string?\n
-Please check config.comufy_rails.url in your environment initializer or the environment variable
-COMUFY_URL are valid strings."
+      Comufyrails.logger.info("Cannot find the base api url, is it currently set to nil or an empty string?
+                  Please check config.comufy_rails.url in your environment initializer or the environment variable
+                  COMUFY_URL are valid strings.")
     elsif Comufyrails.config.access_token.blank?
-      p "
-Cannot find the access token, is it currently set to nil or an empty string?\n
-Please check config.comufy_rails.access_token in your environment initializer or the environment variable
-COMUFY_TOKEN are valid strings."
+      Comufyrails.logger.info("Cannot find the access token, is it currently set to nil or an empty string?
+                  Please check config.comufy_rails.access_token in your environment initializer or the environment
+                  variable COMUFY_TOKEN are valid strings.")
     else
       data = {
         cd:                 106,
@@ -164,18 +157,19 @@ COMUFY_TOKEN are valid strings."
         message = JSON.parse(response.read_body)
         case message['cd']
           when 205 then
-            p "205 - Success! - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("205 - Success! - data = #{data} - message = #{message}.")
           when 602 then
-            p "602 - _ERROR_DOMAIN_APPLICATION_NAME_ALREADY_REGISTERED - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("602 - _ERROR_DOMAIN_APPLICATION_NAME_ALREADY_REGISTERED - data = #{data} - message = #{message}.")
           when 619 then
-            p "619 - _ERROR_DOMAIN_APPLICATION_ALREADY_REGISTERED_UNDER_DIFFERENT_NAME  - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("619 - _ERROR_DOMAIN_APPLICATION_ALREADY_REGISTERED_UNDER_DIFFERENT_NAME  - data = #{data} - message = #{message}.")
           when 645 then
-            p "645 - _ERROR_FACEBOOK_AUTHORISATION_FAILURE - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("645 - _ERROR_FACEBOOK_AUTHORISATION_FAILURE - data = #{data} - message = #{message}.")
           else
-            p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+            Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
         end
       else
-        p "Authentication failed when sending #{data}. Please get in touch with Comufy if you cannot resolve this."
+        Comufyrails.logger.debug("Rake task comufy:tag failed when sending #{data}.")
+        Comufyrails.logger.warn("Authentication failed. Please get in touch with Comufy if you cannot resolve this.")
       end
     end
   end

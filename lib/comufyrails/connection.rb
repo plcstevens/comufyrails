@@ -13,10 +13,6 @@ require 'comufyrails'
 # also print to the log. This is often useful for debugging, but in practise you should provide these with a block.
 module Comufyrails
   module Connection
-
-    class IllegalKeyTypeError < StandardError; end
-    class IllegalValueTypeError < StandardError; end
-
     class << self
 
       # Shortened method name for storing a user, or users in your Application.
@@ -78,18 +74,18 @@ module Comufyrails
             message = JSON.parse(http.response)
             case message["cd"]
               when 388 then
-                p "388 - Success! - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("388 - Success! - data = #{data} - message = #{message}.")
               when 475 then
-                p "475 - Invalid parameter provided. - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("475 - Invalid parameter provided. - data = #{data} - message = #{message}.")
               when 617 then
-                p "617 - Some of the tags passed are not registered. - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("617 - Some of the tags passed are not registered. - data = #{data} - message = #{message}.")
               when 632 then
-                p "632 - _ERROR_FACEBOOK_PAGE_NOT_FOUND - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("632 - _ERROR_FACEBOOK_PAGE_NOT_FOUND - data = #{data} - message = #{message}.")
               else
-                p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
             end
           else
-            p "Server responded with #{http.response_header}."
+            Comufyrails.logger.debug("Server responded with #{http.response_header}.")
           end
         end
       end
@@ -164,30 +160,30 @@ module Comufyrails
             message = JSON.parse(http.response)
             case message["cd"]
               when 383 then
-                p "383 - Success! - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("383 - Success! - data = #{data} - message = #{message}.")
               when 416 then
-                p "416 - _ERROR_MSG_SEND_FAILED - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("416 - _ERROR_MSG_SEND_FAILED - data = #{data} - message = #{message}.")
               when 475 then
-                p "475 - Invalid parameters provided - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("475 - Invalid parameters provided - data = #{data} - message = #{message}.")
               when 551 then
-                p "551 _ERROR_TAG_VALUE_NOT_FOUND - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("551 _ERROR_TAG_VALUE_NOT_FOUND - data = #{data} - message = #{message}.")
               when 603 then
-                p "603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}.")
               when 607 then
-                p "607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}.")
               when 617 then
-                p "617 - _ERROR_DOMAIN_APPLICATION_TAG_NOT_FOUND - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("617 - _ERROR_DOMAIN_APPLICATION_TAG_NOT_FOUND - data = #{data} - message = #{message}.")
               when 648 then
-                p "648 - _ERROR_FACEBOOK_APPLICATION_USER_NOT_FOUND - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("648 - _ERROR_FACEBOOK_APPLICATION_USER_NOT_FOUND - data = #{data} - message = #{message}.")
               when 673 then
-                p "673 - Invalid time exception - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("673 - Invalid time exception - data = #{data} - message = #{message}.")
               when 679 then
-                p "679 - _ERROR_MALFORMED_TARGETING_EXPRESSION - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("679 - _ERROR_MALFORMED_TARGETING_EXPRESSION - data = #{data} - message = #{message}.")
               else
-                p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+                Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
             end
           else
-            p "Server responded with #{http.response_header}."
+            Comufyrails.logger.debug("Server responded with #{http.response_header}.")
           end
         end
       end
@@ -211,13 +207,13 @@ module Comufyrails
             else
               case message["cd"]
                 when 219 then
-                  p "219 - Success! - data = #{data} - message = #{message}."
+                  Connection.logger.debug("219 - Success! - data = #{data} - message = #{message}.")
                 else
-                  p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+                  Connection.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
               end
             end
           else
-            p "Server responded with #{http.response_header}."
+            Connection.logger.debug("Server responded with #{http.response_header}.")
           end
         end
       end
@@ -260,15 +256,15 @@ module Comufyrails
             else
               case message["cd"]
                 when 382 then
-                  p "382 - Success! - data = #{data} - message = #{message}."
+                  Comufyrails.logger.debug("382 - Success! - data = #{data} - message = #{message}.")
                 when 692 then
-                  p "692 - Invalid filter/filter not found - data = #{data} - message = #{message}."
+                  Comufyrails.logger.debug("692 - Invalid filter/filter not found - data = #{data} - message = #{message}.")
                 else
-                  p "UNKNOWN RESPONSE - data = #{data} - message = #{message}."
+                  Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
               end
             end
           else
-            p "Server responded with #{http.response_header}."
+            Comufyrails.logger.debug("Server responded with #{http.response_header}.")
           end
         end
       end

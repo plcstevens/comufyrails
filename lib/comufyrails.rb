@@ -6,6 +6,7 @@ require "comufyrails/constants"
 require "comufyrails/connection"
 require 'comufyrails/railtie' if defined?(Rails)
 
+# :nodoc:
 module Comufyrails
 
   # Contains the list of constant variables that will be used throughout this gem.
@@ -21,7 +22,6 @@ module Comufyrails
   end
 
   class << self
-    # Comufyrails logger (usually uses the Rails.logger)
     attr_accessor :logger
 
     # define as a Config object unless defined
