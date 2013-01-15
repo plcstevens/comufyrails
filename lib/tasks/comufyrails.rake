@@ -10,25 +10,23 @@ namespace :comufy do
     raise ArgumentError, "Must specify a name for the tag." unless args.name
     args.with_defaults(type: 'STRING')
 
-    if Rails.env.development?
-      Comufyrails.logger = Logger.new(STDOUT)
-    end
+    Comufyrails.logger = Logger.new(STDOUT) if Rails.env.development?
 
     if Comufyrails.config.app_name.blank?
-      Comufyrails.logger.info("Cannot find the application name, is it currently set to nil or an empty string? Please check
-                  config.comufy_rails.app_name in your environment initializer or the environment variable
+      Comufyrails.logger.error("Cannot find the application name, is it currently set to nil or an empty string? Please
+                  check config.comufy_rails.app_name in your environment initializer or the environment variable
                   COMUFY_APP_NAME are valid strings. And remember you need to register your application with Comufy
                   first with the comufy:app rake command.")
     elsif Comufyrails.config.url.blank?
-      Comufyrails.logger.info("Cannot find the base api url, is it currently set to nil or an empty string?\n
+      Comufyrails.logger.error("Cannot find the base api url, is it currently set to nil or an empty string?
                   Please check config.comufy_rails.url in your environment initializer or the environment variable
                   COMUFY_URL are valid strings.")
     elsif Comufyrails.config.access_token.blank?
-      Comufyrails.logger.info("Cannot find the access token, is it currently set to nil or an empty string?\n
+      Comufyrails.logger.error("Cannot find the access token, is it currently set to nil or an empty string?
                   Please check config.comufy_rails.access_token in your environment initializer or the environment
                   variable COMUFY_TOKEN are valid strings.")
     elsif not Comufyrails::LEGAL_TYPES.include?(args.type)
-      Comufyrails.logger.info("The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(last_word_connector: ', or ')}")
+      Comufyrails.logger.error("The type must be #{Comufyrails::LEGAL_TYPES.to_sentence(last_word_connector: ', or ')}")
     else
       data = {
           cd:              86,
@@ -40,6 +38,7 @@ namespace :comufy do
                             }]
       }
 
+      Comufyrails.logger.debug("Preparing to add your tag #{args.name} to your application #{Comufyrails.config.app_name}.")
       uri = URI.parse(Comufyrails.config.url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
@@ -52,20 +51,26 @@ namespace :comufy do
         case message["cd"]
           when 386 then
             Comufyrails.logger.debug("386 - Success! - data = #{data} - message = #{message}.")
+            Comufyrails.logger.info("Successfully added the tag #{args.name} to your application #{Comufyrails.config.app_name}.")
           when 475 then
             Comufyrails.logger.debug("475 - Invalid parameters provided - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to add your tag #{args.name} to your application #{Comufyrails.config.app_name}.")
           when 603 then
             Comufyrails.logger.debug("603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to add your tag #{args.name} to your application #{Comufyrails.config.app_name}.")
           when 607 then
             Comufyrails.logger.debug("607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to add your tag #{args.name} to your application #{Comufyrails.config.app_name}.")
           when 618 then
             Comufyrails.logger.debug("618 - _ERROR_DOMAIN_APPLICATION_TAG_ALREADY_REGISTERED - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to add your tag #{args.name} to your application #{Comufyrails.config.app_name}.")
           else
             Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to add your tag #{args.name} to your application #{Comufyrails.config.app_name}.")
         end
       else
         Comufyrails.logger.debug("Rake task comufy:tag failed when sending #{data}.")
-        Comufyrails.logger.warn("Authentication failed. Please get in touch with Comufy if you cannot resolve this.")
+        Comufyrails.logger.error("Authentication failed. Please get in touch with Comufy if you cannot resolve this.")
       end
     end
   end
@@ -74,21 +79,19 @@ namespace :comufy do
   task :detag , [:name] => :environment do |t, args|
     raise ArgumentError, "Must specify a name for the tag." unless args.name
 
-    if Rails.env.development?
-      Comufyrails.logger = Logger.new(STDOUT)
-    end
+    Comufyrails.logger = Logger.new(STDOUT) if Rails.env.development?
 
     if Comufyrails.config.app_name.blank?
-      Comufyrails.logger.info("Cannot find the application name, is it currently set to nil or an empty string? Please check
-                  config.comufy_rails.app_name in your environment initializer or the environment variable
+      Comufyrails.logger.error("Cannot find the application name, is it currently set to nil or an empty string? Please
+                  check config.comufy_rails.app_name in your environment initializer or the environment variable
                   COMUFY_APP_NAME are valid strings. And remember you need to register your application with Comufy
                   first with the comufy:app rake command.")
     elsif Comufyrails.config.url.blank?
-      Comufyrails.logger.info("Cannot find the base api url, is it currently set to nil or an empty string?\n
+      Comufyrails.logger.error("Cannot find the base api url, is it currently set to nil or an empty string?
                   Please check config.comufy_rails.url in your environment initializer or the environment variable
                   COMUFY_URL are valid strings.")
     elsif Comufyrails.config.access_token.blank?
-      Comufyrails.logger.info("Cannot find the access token, is it currently set to nil or an empty string?\n
+      Comufyrails.logger.error("Cannot find the access token, is it currently set to nil or an empty string?
                   Please check config.comufy_rails.access_token in your environment initializer or the environment
                   variable COMUFY_TOKEN are valid strings.")
     else
@@ -99,6 +102,7 @@ namespace :comufy do
           tag:             args.name
       }
 
+      Comufyrails.logger.debug("Preparing to send request to unregister the tag: #{args.name}")
       uri = URI.parse(Comufyrails.config.url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
@@ -111,20 +115,26 @@ namespace :comufy do
         case message['cd']
           when 385 then
             Comufyrails.logger.debug("385 - Success! - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Success! Removed your tag #{args.name} from your application #{Comufyrails.config.app_name}.")
           when 475 then
             Comufyrails.logger.debug("475 - Invalid parameters provided - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to remove your tag #{args.name} from your application #{Comufyrails.config.app_name}.")
           when 603 then
             Comufyrails.logger.debug("603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to remove your tag #{args.name} from your application #{Comufyrails.config.app_name}.")
           when 607 then
             Comufyrails.logger.debug("607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to remove your tag #{args.name} from your application #{Comufyrails.config.app_name}.")
           when 617 then
             Comufyrails.logger.debug("617 - _ERROR_DOMAIN_APPLICATION_TAG_NOT_FOUND - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to remove your tag #{args.name} from your application #{Comufyrails.config.app_name}.")
           else
             Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to remove your tag #{args.name} from your application #{Comufyrails.config.app_name}.")
         end
       else
         Comufyrails.logger.debug("Rake task comufy:tag failed when sending #{data}.")
-        Comufyrails.logger.warn("Authentication failed. Please get in touch with Comufy if you cannot resolve this.")
+        Comufyrails.logger.error("Authentication failed. Please get in touch with Comufy if you cannot resolve this.")
       end
     end
   end
@@ -136,16 +146,14 @@ namespace :comufy do
     raise ArgumentError, "Must specify a facebook secret for the application."          unless args.secret
     raise ArgumentError, "Must specify a description for the application."              unless args.description
 
-    if Rails.env.development?
-      Comufyrails.logger = Logger.new(STDOUT)
-    end
+    Comufyrails.logger = Logger.new(STDOUT) if Rails.env.development?
 
     if Comufyrails.config.url.blank?
-      Comufyrails.logger.info("Cannot find the base api url, is it currently set to nil or an empty string?
+      Comufyrails.logger.error("Cannot find the base api url, is it currently set to nil or an empty string?
                   Please check config.comufy_rails.url in your environment initializer or the environment variable
                   COMUFY_URL are valid strings.")
     elsif Comufyrails.config.access_token.blank?
-      Comufyrails.logger.info("Cannot find the access token, is it currently set to nil or an empty string?
+      Comufyrails.logger.error("Cannot find the access token, is it currently set to nil or an empty string?
                   Please check config.comufy_rails.access_token in your environment initializer or the environment
                   variable COMUFY_TOKEN are valid strings.")
     else
@@ -158,6 +166,7 @@ namespace :comufy do
         applicationSecret:  args.secret
       }
 
+      Comufyrails.logger.debug("Preparing to add your application #{args.name} to Comufy.")
       uri = URI.parse(Comufyrails.config.url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
@@ -170,18 +179,23 @@ namespace :comufy do
         case message['cd']
           when 205 then
             Comufyrails.logger.debug("205 - Success! - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Success! Able to add your application #{args.name} to Comufy.")
           when 602 then
             Comufyrails.logger.debug("602 - _ERROR_DOMAIN_APPLICATION_NAME_ALREADY_REGISTERED - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to add your application #{args.name}.")
           when 619 then
             Comufyrails.logger.debug("619 - _ERROR_DOMAIN_APPLICATION_ALREADY_REGISTERED_UNDER_DIFFERENT_NAME  - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to add your application #{args.name}.")
           when 645 then
             Comufyrails.logger.debug("645 - _ERROR_FACEBOOK_AUTHORISATION_FAILURE - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to add your application #{args.name}.")
           else
             Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
+            Comufyrails.logger.warn("Unable to add your application #{args.name}.")
         end
       else
         Comufyrails.logger.debug("Rake task comufy:tag failed when sending #{data}.")
-        Comufyrails.logger.warn("Authentication failed. Please get in touch with Comufy if you cannot resolve this.")
+        Comufyrails.logger.error("Authentication failed. Please get in touch with Comufy if you cannot resolve this.")
       end
     end
   end

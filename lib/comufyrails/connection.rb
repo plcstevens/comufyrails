@@ -74,18 +74,18 @@ module Comufyrails
             message = JSON.parse(http.response)
             case message["cd"]
               when 388 then
-                Comufyrails.logger.debug("388 - Success! - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("Success! Method: store_users, data: #{data}, response: #{message}.")
               when 475 then
-                Comufyrails.logger.debug("475 - Invalid parameter provided. - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("Invalid parameter provided! Method: store_users, data: #{data}, response: #{message}.")
               when 617 then
-                Comufyrails.logger.debug("617 - Some of the tags passed are not registered. - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("Some of the tags passed are not registered! Method: store_users, data: #{data}, response: #{message}.")
               when 632 then
-                Comufyrails.logger.debug("632 - _ERROR_FACEBOOK_PAGE_NOT_FOUND - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("_ERROR_FACEBOOK_PAGE_NOT_FOUND! Method: store_users, data: #{data}, response: #{message}.")
               else
-                Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("Unknown response from server! Method: store_users, data: #{data}, response: #{message}.")
             end
           else
-            Comufyrails.logger.warn("Server responded with #{http.response_header}.")
+            Comufyrails.logger.warn("Bad response from server: #{http.response_header}.")
           end
         end
       end
@@ -160,30 +160,30 @@ module Comufyrails
             message = JSON.parse(http.response)
             case message["cd"]
               when 383 then
-                Comufyrails.logger.debug("383 - Success! - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("Success! Method: send_facebook_message, data: #{data}, response: #{message}.")
               when 416 then
-                Comufyrails.logger.debug("416 - _ERROR_MSG_SEND_FAILED - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("_ERROR_MSG_SEND_FAILED! Method: send_facebook_message, data: #{data}, response: #{message}.")
               when 475 then
-                Comufyrails.logger.debug("475 - Invalid parameters provided - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("Invalid parameters provided! Method: send_facebook_message, data: #{data}, response: #{message}.")
               when 551 then
-                Comufyrails.logger.debug("551 _ERROR_TAG_VALUE_NOT_FOUND - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("_ERROR_TAG_VALUE_NOT_FOUND! Method: send_facebook_message, data: #{data}, response: #{message}.")
               when 603 then
-                Comufyrails.logger.debug("603 - _ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("_ERROR_DOMAIN_APPLICATION_NAME_NOT_FOUND! Method: send_facebook_message, data: #{data}, response: #{message}.")
               when 607 then
-                Comufyrails.logger.debug("607 - _ERROR_UNAUTHORISED_ACTION - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("_ERROR_UNAUTHORISED_ACTION! Method: send_facebook_message, data: #{data}, response: #{message}.")
               when 617 then
-                Comufyrails.logger.debug("617 - _ERROR_DOMAIN_APPLICATION_TAG_NOT_FOUND - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("_ERROR_DOMAIN_APPLICATION_TAG_NOT_FOUND! Method: send_facebook_message, data: #{data}, response: #{message}.")
               when 648 then
-                Comufyrails.logger.debug("648 - _ERROR_FACEBOOK_APPLICATION_USER_NOT_FOUND - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("_ERROR_FACEBOOK_APPLICATION_USER_NOT_FOUND! Method: send_facebook_message, data: #{data}, response: #{message}.")
               when 673 then
-                Comufyrails.logger.debug("673 - Invalid time exception - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("Invalid time exception! Method: send_facebook_message, data: #{data}, response: #{message}.")
               when 679 then
-                Comufyrails.logger.debug("679 - _ERROR_MALFORMED_TARGETING_EXPRESSION - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("_ERROR_MALFORMED_TARGETING_EXPRESSION! Method: send_facebook_message, data: #{data}, response: #{message}.")
               else
-                Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
+                Comufyrails.logger.debug("Unknown response from server! Method: send_facebook_message, data: #{data}, response: #{message}.")
             end
           else
-            Comufyrails.logger.warn("Server responded with #{http.response_header}.")
+            Comufyrails.logger.warn("Bad response from server: #{http.response_header}.")
           end
         end
       end
@@ -203,17 +203,18 @@ module Comufyrails
           if http.response_header.status == 200
             message = JSON.parse(http.response)
             if block_given?
+              # TODO: Cut into the response to make it easier for users to use this function.
               yield message
             else
               case message["cd"]
                 when 219 then
-                  Comufyrails.logger.debug("219 - Success! - data = #{data} - message = #{message}.")
+                  Comufyrails.logger.debug("Success! method: tags, data: #{data}, response: #{message}.")
                 else
-                  Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
+                  Comufyrails.logger.debug("Unknown response from server! Method: tags, data: #{data}, response: #{message}.")
               end
             end
           else
-            Comufyrails.logger.warn("Server responded with #{http.response_header}.")
+            Comufyrails.logger.warn("Bad response from server: #{http.response_header}.")
           end
         end
       end
@@ -259,18 +260,18 @@ module Comufyrails
             else
               case message["cd"]
                 when 382 then
-                  Comufyrails.logger.debug("382 - Success! - data = #{data} - message = #{message}.")
+                  Comufyrails.logger.debug("Success! Method: users, data: #{data}, response: #{message}.")
                   Comufyrails.logger.info("#{total} user(s) were found matching your filter.\n #{users}")
                 when 692 then
-                  Comufyrails.logger.debug("692 - Invalid filter/filter not found - data = #{data} - message = #{message}.")
-                  Comufyrails.logger.info("Invalid filter/filter not found.\n #{users}")
+                  Comufyrails.logger.debug("Invalid filter/filter not found! Method: users, data: #{data}, response: #{message}.")
+                  Comufyrails.logger.info("Invalid filter/filter not found. #{users}")
                 else
-                  Comufyrails.logger.debug("UNKNOWN RESPONSE - data = #{data} - message = #{message}.")
-                  Comufyrails.logger.info("Unknown response from server.\n #{users}")
+                  Comufyrails.logger.debug("Unknown response from server! Method: users, data: #{data}, response: #{message}.")
+                  Comufyrails.logger.info("Unknown response from server. #{users}")
               end
             end
           else
-            Comufyrails.logger.warn("Server responded with #{http.response_header}, rather than the expected 200.")
+            Comufyrails.logger.warn("Bad response from server: #{http.response_header}.")
           end
         end
       end
