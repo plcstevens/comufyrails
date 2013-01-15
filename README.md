@@ -9,18 +9,23 @@ messages to your users.
 
 Add any of the lines to your application's Gemfile:
 
-    gem 'comufyrails'
-    gem 'comufyrails', :git => "git://github.com/plcstevens/comufyrails.git"
-    gem 'comufyrails', :path => "/path/to/comufyrails/directory"
+```bash
+$ gem 'comufyrails'
+$ gem 'comufyrails', :git => "git://github.com/plcstevens/comufyrails.git"
+$ gem 'comufyrails', :path => "/path/to/comufyrails/directory"
+```
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle
+```
 
 Or install it yourself:
 
-    $ gem install comufyrails
-
+```bash
+$ gem install comufyrails
+```
 
 ## Web servers
 
@@ -39,7 +44,12 @@ service you will need to find another way to get these values, listed below.
 If you are using this on your local development machine or elsewhere you have two ways to configure this gem. You
 can get these values by using this heroku command below and looking for all values starting with 'COMUFY_'.
 
-    heroku config
+```bash
+$ heroku config | grep COMUFY
+COMUFY_APP_NAME:            Your Facebook Application Name
+COMUFY_TOKEN:               Your Access Token
+COMUFY_URL:                 The URL you use to access Comufys API
+```
 
 ### Application Name
 
@@ -63,7 +73,7 @@ config.comufy_rails.url           = 'COMUFY'
 
 Alternatively you can set these in your environment/path.
 
-```
+```text
 COMUFY_APP_NAME     - Application name on Comufy, defaults to your Ruby on Rails application name.
 COMUFY_TOKEN        - Token given to you by our Comufy Heroku service or from Comufy directly.
 COMUFY_URL          - Full HTTP address to connect to, defaults to our service.
